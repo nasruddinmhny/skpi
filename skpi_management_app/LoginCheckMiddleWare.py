@@ -27,7 +27,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 elif modulname == 'skpi_management_app.views' or modulname == 'django.views.static':
                     pass
                 else:
-                    return redirect('staff_home')
+                    return redirect('staff-home')
 
             elif user.user_type == '3':
     

@@ -1,7 +1,4 @@
-from email import message
-from multiprocessing import context
 import os
-from urllib import request
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.contrib import messages
@@ -10,9 +7,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-from .forms import CreateGelarfForm, CreatePerguruanTinggiForm, CreateStaffForm, UpdateGelarfForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm
+from .forms import CreateCplForm, CreateGelarfForm, CreateOrganisasiForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateGelarfForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateSubCplForm
 
-from .models import CustomUser, Fakultas, Gelar, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa
+from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
 
 def admin_home(request):
     all_mahasiswa_count = Mahasiswa.objects.all().count()
@@ -226,6 +223,64 @@ def add_staff_save(request):
             messages.error(request, "Data Staff gagal Di Tambah!")
             return redirect('add_staff')
 
+def edit_staff(request,staff_id):
+    staff = Staff.objects.get(admin=staff_id)
+    prodi = ProgramStudi.objects.all()
+    context={
+        'staff':staff,
+        'id':staff_id,
+        'prodi':prodi,
+    }
+    return render(request,'hod_template/edit_staff_template.html',context)
+
+def edit_staff_save(request):
+    if request.method != "POST":
+        return HttpResponse("<h2>Method Not Allowed</h2>")
+    else:
+        staff_id = request.POST.get('staff_id')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        address = request.POST.get('address')
+        programstudi = ProgramStudi.objects.get(id=request.POST.get('programstudi'))
+
+        try:
+            # INSERTING into Customuser Model
+            user = CustomUser.objects.get(id=staff_id)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.username = username
+            user.save()
+            
+            # INSERTING into Staff Model
+            staff_model = Staff.objects.get(admin=staff_id)
+            staff_model.address = address
+            staff_model.programstudi = programstudi
+            staff_model.save()
+
+            messages.success(request, "Staff Updated Successfully.")
+            return redirect('manage_staff')
+
+        except:
+            messages.error(request, "Failed to Update Staff.")
+            return redirect('/edit_staff/'+staff_id)
+
+
+
+def hapus_staff(request,staff_id):
+    staff = Staff.objects.get(admin=staff_id)
+    user = CustomUser.objects.get(id=staff_id)
+    try:
+        staff.delete()
+        user.delete()
+        messages.success(request, "Data Staff Dihapus")
+        return redirect('manage_staff')
+    except:
+        messages.error(request, "Data Staff gagal di hapus!")
+        return redirect('manage_staff')
+
 def manage_mahasiswa(request):
     mahasiswa = Mahasiswa.objects.all()
     return render(request,'hod_template/manage_mahasiswa_template.html',{'mahasiswa':mahasiswa})
@@ -296,7 +351,115 @@ def update_gelar(request,gelar_id):
         'form':form,
     }
     return render(request,'hod_template/update_gelar_template.html',context)
-            
+
+def manage_cpl(request):    
+    cpl = Cpl.objects.all()
+
+    if request.method == 'POST':
+        form = CreateCplForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Data Di Simpan!")
+            return redirect('manage_cpl')
+    else:
+        form = CreateCplForm()
+ 
+    context={
+        'form':form,
+        'cpl':cpl,
+    }
+
+    return render (request,'hod_template/manage_cpl_template.html',context)
+
+def update_cpl(request,cpl_id):
+    cpl = Cpl.objects.get(id=cpl_id)
+
+    if request.method == 'POST':
+        form = UpdateCplForm(request.POST,instance=cpl)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Data Di Update!")
+            return redirect('manage_cpl')
+    else:
+        form = UpdateCplForm(instance=cpl)
+
+    context={
+        'form':form,
+    }
+    return render(request,'hod_template/edit_cpl_template.html',context)
+
+def hapus_cpl(request,cpl_id):
+    cpl = Cpl.objects.get(id=cpl_id)
+    cpl.delete()
+    messages.success(request, "Data Di Hapus")
+    return redirect('manage_cpl')
+
+
+def manage_subcpl(request):    
+    subcpl = SubAspekCpl.objects.all()
+
+    if request.method == 'POST':
+        form = CreateSubCplForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Data Di Simpan!")
+            return redirect('manage_subcpl')
+    else:
+        form = CreateSubCplForm()
+
+    context={
+        'form':form,
+        'subcpl':subcpl,
+    }
+
+    return render (request,'hod_template/manage_subcpl_template.html',context)
+
+def update_subcpl(request,subcpl_id):
+    subcpl = SubAspekCpl.objects.get(id=subcpl_id)
+
+    if request.method == 'POST':
+        form = UpdateSubCplForm(request.POST,instance=subcpl)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Data Di Update!")
+            return redirect('manage_subcpl')
+    else:
+        form = UpdateSubCplForm(instance=subcpl)
+
+    context={
+        'form':form,
+        'subcpl':subcpl,
+    }
+    return render(request,'hod_template/edit_subcpl_template.html',context)
+
+def hapus_subcpl(request,subcpl_id):
+    subcpl = SubAspekCpl.objects.get(id=subcpl_id)
+    subcpl.delete()
+    messages.success(request, "Data Di Hapus")
+    return redirect('manage_subcpl')
+
+
+#organisasi
+def manage_organisasi(request):
+    organisasi = Organisasi.objects.all()
+
+    if request.method == 'POST':
+        form = CreateOrganisasiForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Data Disimpan.')
+            return redirect('organisasi-index')
+    else:
+        form = CreateOrganisasiForm(request.FILES)
+
+    context = {
+        'form':form,
+        'organisasi':organisasi,
+    }
+    return render(request,'skpi/organisasi/index.html',context)
+
+
+
 @csrf_exempt
 def check_email_exist(request):
     email = request.POST.get("email")
@@ -315,3 +478,4 @@ def check_username_exist(request):
         return HttpResponse(True)
     else:
         return HttpResponse(False)
+

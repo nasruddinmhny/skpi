@@ -111,7 +111,7 @@ class Staff(models.Model):
 class Cpl(models.Model):
     namaindo = models.CharField(max_length=100, null=False,verbose_name='Aspek')
     namainggris = models.CharField(max_length=100, null=False,verbose_name='Attitude')
-    programstudi = models.ForeignKey(ProgramStudi,on_delete=models.CASCADE, default=1, verbose_name='Program Studi')
+    programstudi = models.ForeignKey(ProgramStudi,on_delete=models.CASCADE, verbose_name='Program Studi')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

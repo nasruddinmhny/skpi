@@ -1,7 +1,9 @@
 from unicodedata import name
 from django.urls import path
+
+from skpi_management_app import StaffViews,adminHome
 from . import views
-from . import adminHome,StaffHome,MahasiswaHome
+
 
 
 urlpatterns = [
@@ -23,11 +25,23 @@ urlpatterns = [
     path('manage_staff/',adminHome.manage_staff,name='manage_staff'),
     path('add_staff/',adminHome.add_staff,name='add_staff'),
     path('add_staff_save/',adminHome.add_staff_save,name="add_staff_save"),
+    path('edit_staff/<int:staff_id>/',adminHome.edit_staff,name="edit_staff"),
+    path('edit_staff_save/',adminHome.edit_staff_save,name="edit_staff_save"),
+    path('hapus_staff/<int:staff_id>/',adminHome.hapus_staff,name='hapus_staff'),
     path('manage_mahasiswa/',adminHome.manage_mahasiswa,name='manage_mahasiswa'),
     path('add_mahasiswa/',adminHome.add_mahasiswa,name='add_mahasiswa'),
     path('add_mahasiswa_save/', adminHome.add_mahasiswa_save,name='add_mahasiswa_save'),
     path('manage_gelar/',adminHome.manage_gelar,name='manage_gelar'),
-     path('update_gelar/<int:gelar_id>/',adminHome.update_gelar,name='update_gelar'),
+    path('update_gelar/<int:gelar_id>/',adminHome.update_gelar,name='update_gelar'),
+    path('manage_cpl/',adminHome.manage_cpl,name='manage_cpl'),
+    path('update_cpl/<int:cpl_id>/',adminHome.update_cpl,name='update_cpl'),
+    path('hapus_cpl/<int:cpl_id>/',adminHome.hapus_cpl,name='hapus_cpl'),
+    path('manage_subcpl/',adminHome.manage_subcpl,name='manage_subcpl'),
+    path('update_subcpl/<int:subcpl_id>/',adminHome.update_subcpl,name='update_subcpl'),
+    path('hapus_subcpl/<int:subcpl_id>/',adminHome.hapus_subcpl,name='hapus_subcpl'),
+
+    #staff
+    path('staff_home/',StaffViews.staff_home,name='staff-home'),
 
 
 

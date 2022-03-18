@@ -1,7 +1,7 @@
 from dataclasses import field
 from pyexpat import model
 from django import forms
-from .models import PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar
+from .models import Cpl, Organisasi, PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar, SubAspekCpl
 
 #form perguruan tinggi
 class CreatePerguruanTinggiForm(forms.ModelForm):
@@ -77,4 +77,38 @@ class CreateGelarfForm(forms.ModelForm):
 class UpdateGelarfForm(forms.ModelForm):
     class Meta:
         model = Gelar
+        fields = '__all__'
+
+#cpl
+class CreateCplForm(forms.ModelForm):
+    class Meta:
+        model = Cpl
+        fields = '__all__'
+
+class UpdateCplForm(forms.ModelForm):
+    class Meta:
+        model = Cpl
+        fields = '__all__'
+
+#cpl
+class CreateSubCplForm(forms.ModelForm):
+    class Meta:
+        model = SubAspekCpl
+        fields = '__all__'
+
+class UpdateSubCplForm(forms.ModelForm):
+    class Meta:
+        model = SubAspekCpl
+        fields = '__all__'
+
+#organisasi
+class CreateOrganisasiForm(forms.ModelForm):
+    class Meta:
+        model = Organisasi
+        fields = '__all__'
+        #fields = ['nama','periode','jabatan','berkaspendukung','images']
+
+class UpdateOrganisasiForm(forms.ModelForm):
+    class Meta:
+        model = Organisasi
         fields = '__all__'

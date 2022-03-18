@@ -39,7 +39,7 @@
                         <td>{{ st.admin.username }}</td>
                         <td>{{ st.admin.user_type}}</td>
                         <td>
-                            <a href="" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
+                            <a href="{% url 'edit_staff' st.admin.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{st.id}}" title="Hapus">
                                 Hapus
                             </button>
@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-                                  <a href="" class="btn btn-danger btn-sm">Hapus</a>
+                                  <a href="{% url 'hapus_staff' st.admin.id %}" class="btn btn-danger btn-sm">Hapus</a>
                                   
                                 </div>
                               </form>
