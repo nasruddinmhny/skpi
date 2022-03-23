@@ -1,8 +1,8 @@
-from dataclasses import field
-from pyexpat import model
+from distutils.command.clean import clean
 from django import forms
-from .models import Cpl, Organisasi, PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar, SubAspekCpl
-
+from .models import Cpl, CustomUser, Mahasiswa, Organisasi, PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar, SubAspekCpl
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 #form perguruan tinggi
 class CreatePerguruanTinggiForm(forms.ModelForm):
     class Meta:
@@ -112,3 +112,33 @@ class UpdateOrganisasiForm(forms.ModelForm):
     class Meta:
         model = Organisasi
         fields = '__all__'
+
+class CreateCustomUserForm(UserCreationForm):
+    email = forms.EmailField(widget=forms.EmailInput)
+    password1 = forms.CharField(widget=forms.PasswordInput)
+    password2 = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ['username','email','password1','password2','first_name','last_name']
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        p1 = cleaned_data.get('password1')
+        p2 = cleaned_data.get('password2')
+
+        if p1 != p2:
+            raise forms.ValidationError('your password dont match')
+        return cleaned_data
+
+    def clean_email(self):
+        cleaned_data = super().clean()
+
+        email1 = cleaned_data.get('email')
+        if CustomUser.objects.filter(email=email1):
+            raise forms.ValidationError("email address is already exist")
+        return email1
+
+
+

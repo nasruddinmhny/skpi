@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block main_content %}
 <div class="page-heading">
-    <h1 class="page-title">Data Staff</h1>
+    <h1 class="page-title">Data Mahasiswa</h1>
     <div class="row">
         <div class="col-md-12">
             {% if messages %}
@@ -36,8 +36,8 @@
                 <tbody>
                     {% for mhs in mahasiswa  %}
                     <tr>
-                        <td>{{ mhs.nim}}</td>
-                        <td>{{ mhs.admin.last_name}}</td>
+                        <td>1{{ mhs.admin.username}}</td>
+                        <td>{{ mhs.admin.user_type}}</td>
                         <td>
                             <a href="" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{mhs.id}}" title="Hapus">
@@ -54,11 +54,11 @@
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  Apakah data <strong>{{ st.admin.username | upper }}</strong> ingin Dihapus?
+                                  Apakah data <strong>{{ mhs.admin.username | upper }}</strong> ingin Dihapus?
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-                                  <a href="" class="btn btn-danger btn-sm">Hapus</a>
+                                  <a href="{% url 'hapus_mahasiswa' mhs.admin.id %}" class="btn btn-danger btn-sm">Hapus</a>
                                   
                                 </div>
                               </form>

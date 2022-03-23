@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm,CreateOrganisasiForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateGelarfForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateSubCplForm
+from .forms import CreateCplForm, CreateGelarfForm, CreateUserForm,CreateOrganisasiForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, CreatemahasiswaForm, UpdateCplForm, UpdateGelarfForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateSubCplForm
 
 from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
 
@@ -197,29 +197,40 @@ def manage_staff(request):
 
 def add_staff(request):
     programstudi = ProgramStudi.objects.all()
-    form_user = CreateCustomUserForm()
-    
-    return render(request,'hod_template/add_staff_template.html',{'prodi':programstudi,'form_user':form_user,})
+    form = CreateUserForm()
+    form_mahasiswa = CreatemahasiswaForm()
+    return render(request,'hod_template/add_staff_template.html',{'prodi':programstudi,'form':form,'form_mahasiswa':form_mahasiswa})
 
 def add_staff_save(request):
-  
-    if request.method == 'POST':
-        form_user = CreateCustomUserForm(request.POST)  
-        if form_user.is_valid():
-            userForm = form_user.save(commit=False)
-            userForm.user_type = 2
-            userForm.save()
-            messages.success(request,'Data Disimpan')  
-            return redirect('add_staff')
+    if request.method != "POST":
+        messages.error(request, "Invalid Method ")
+        return redirect('add_staff')
+    
     else:
-        form_user = CreateCustomUserForm()
-        
-    context = {
-        'form_user':form_user,
-        
-    }
-    return render(request,'hod_template/add_staff_template.html',context)
-        
+        #first_name = request.POST.get('first_name')
+        #last_name = request.POST.get('last_name')
+        #username = request.POST.get('username')
+        #email = request.POST.get('email')
+        #password = request.POST.get('password')
+        #address = request.POST.get('address')
+        #programstudi = ProgramStudi.objects.get(id=request.POST.get('programstudi'))
+        form_user = CreateUserForm(request.POST)
+        form_mahasiswa=CreatemahasiswaForm(request.POST)
+        try:
+
+           # user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=2)
+           # user.staff.address=address
+           # user.staff.programstudi=programstudi
+            #user.save()
+            if form_user.is_valid() and form_mahasiswa.is_valid():
+                messages.success(request, "Data Staff Di Tambah!")
+                return redirect('add_staff')
+            else:
+                messages.error(request, "Data Staff gagal Di Tambah!")
+                return redirect('add_staff')
+        except:
+            messages.error(request, "Data Staff gagal Di Tambah!")
+            return redirect('add_staff')
 
 def edit_staff(request,staff_id):
     staff = Staff.objects.get(admin=staff_id)
@@ -284,37 +295,14 @@ def manage_mahasiswa(request):
     return render(request,'hod_template/manage_mahasiswa_template.html',{'mahasiswa':mahasiswa})
 
 def add_mahasiswa(request):
-    form_mahasiswa = CreateCustomUserForm()
-    context={
-        'form_mahasiswa':form_mahasiswa,
-    }
-    return render(request,'hod_template/add_mahasiswa_template.html',context)
+    prodi = ProgramStudi.objects.all()
+    return render(request,'hod_template/add_mahasiswa_template.html',{'prodi':prodi})
 
 def add_mahasiswa_save(request):
-    if request.method == 'POST':
-        form_mahasiswa = CreateCustomUserForm(request.POST)  
-        if form_mahasiswa.is_valid():
-            userForm = form_mahasiswa.save(commit=False)
-            userForm.user_type = 3 
-            userForm.programstudi_id = ProgramStudi.objects.get(id=1)
-            userForm.save()
-            messages.success(request,'Data User Disimpan')  
-            return redirect('add_mahasiswa')
-    else:
-        form_user = CreateCustomUserForm()
-        
-    context = {
-        'form_mahasiswa':form_mahasiswa,
-        
-    }
-    return render(request,'hod_template/add_mahasiswa_template.html',context)
-    '''
     if request.method != "POST":
         messages.error(request, "Invalid Method ")
         return redirect('add_staff')
     else:
-        
-      
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
@@ -324,8 +312,8 @@ def add_mahasiswa_save(request):
         nim = request.POST.get('nim')
         tempatlahir = request.POST.get('tempatlahir')
         tgllahir = request.POST.get('tgllahir')
-        #programstudi = ProgramStudi.objects.get(id=request.POST.get('programstudi'))
-        
+        programstudi = ProgramStudi.objects.get(id=request.POST.get('programstudi'))
+
         try:
             user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=3)
             user.mahasiswa(address=address,nim=nim,tempatlahir=tempatlahir,tgllahir=tgllahir,prodi=programstudi)
@@ -335,19 +323,8 @@ def add_mahasiswa_save(request):
         except:
             messages.error(request, "Data Mahasiswa gagal Di Tambah!")
             return redirect('add_mahasiswa')
-        '''
 
-def hapus_mahasiswa(request,mahasiswa_id):
-    mahasiswa = Mahasiswa.objects.get(admin=mahasiswa_id)
-    user = CustomUser.objects.get(id=mahasiswa_id)
-    try:
-        mahasiswa.delete()
-        user.delete()
-        messages.success(request, "Data Mahasiswa Dihapus")
-        return redirect('manage_mahasiswa')
-    except:
-        messages.error(request, "Data mahasiswa gagal di hapus!")
-        return redirect('manage_mahasiswa')
+
 
 
 def manage_gelar(request):

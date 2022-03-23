@@ -31,6 +31,7 @@ urlpatterns = [
     path('manage_mahasiswa/',adminHome.manage_mahasiswa,name='manage_mahasiswa'),
     path('add_mahasiswa/',adminHome.add_mahasiswa,name='add_mahasiswa'),
     path('add_mahasiswa_save/', adminHome.add_mahasiswa_save,name='add_mahasiswa_save'),
+    path('hapus_mahasiswa/<int:mahasiswa_id>/',adminHome.hapus_mahasiswa,name='hapus_mahasiswa'),
     path('manage_gelar/',adminHome.manage_gelar,name='manage_gelar'),
     path('update_gelar/<int:gelar_id>/',adminHome.update_gelar,name='update_gelar'),
     path('manage_cpl/',adminHome.manage_cpl,name='manage_cpl'),

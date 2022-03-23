@@ -1,5 +1,3 @@
-from email.policy import default
-from venv import create
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
@@ -14,6 +12,7 @@ class CustomUser(AbstractUser):
         (3,'Mahasiswa'),
     )
     user_type = models.CharField(default=1, choices=user_type_data,max_length=100)
+    
 
 class AdminHOD(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -148,11 +147,15 @@ class Gelar(models.Model):
 class Mahasiswa(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     nim = models.CharField(max_length=30, blank=True,null=True)
-    gender = models.CharField(max_length=50)
-    address = models.TextField(blank=True,null=True)
-    tempatlahir = models.CharField(max_length=200, null=True, blank=True , verbose_name="Tem. Lahir")
-    tgllahir = models.DateField(auto_created=True, blank=True, verbose_name="Tgl. Lahir")
-    programstudi = models.ForeignKey(ProgramStudi,on_delete=models.CASCADE, verbose_name="Program Studi")
+    JK = (
+        ('LAKI-LAKI','LAKI-LAKI'),
+        ('PEREMPUAN','PEREMPUAN'),
+    )
+    gender = models.CharField(max_length=50,choices=JK)
+    address = models.TextField(blank=True,max_length=250,null=True)
+    tempatlahir = models.CharField(max_length=200)
+    tgllahir = models.DateField(auto_created=True,blank=True)
+    programstudi = models.ForeignKey(ProgramStudi,on_delete=models.CASCADE, blank=True, null=True, verbose_name="Program Studi")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
@@ -252,7 +255,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 2:
             Staff.objects.create(admin=instance)
         if instance.user_type == 3:
-            Mahasiswa.objects.create(admin=instance,nim='',gender='',address='',tempatlahir='')
+            Mahasiswa.objects.create(admin=instance,nim='0',gender='LAKI-LAKI',tempatlahir='Balikpapan',tgllahir='2000-01-01')
 
 @receiver(post_save,sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
