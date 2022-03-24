@@ -30,6 +30,7 @@
                     <tr>
                         <th>NIM</th>
                         <th>USER TYPE</th>
+                        <th>PROGRAM STUDI</th>
                         <th>AKSI</th>
                     </tr>
                 </thead>
@@ -38,8 +39,10 @@
                     <tr>
                         <td>1{{ mhs.admin.username}}</td>
                         <td>{{ mhs.admin.user_type}}</td>
+                        <td>{{ mhs.programstudi.nama}}</td>
                         <td>
-                            <a href="" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
+                            <a href="{% url 'view_user_mahasiswa' mhs.admin.id %}" class="btn btn-warning btn-sm" title="Edit">View</i></a>
+                            <a href="{% url 'update_mahasiswa' mhs.admin.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{mhs.id}}" title="Hapus">
                                 Hapus
                             </button>

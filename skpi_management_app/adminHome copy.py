@@ -7,9 +7,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-from .forms import CreateCplForm, CreateGelarfForm, CreateUserForm,CreateOrganisasiForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, CreatemahasiswaForm, UpdateCplForm, UpdateGelarfForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateSubCplForm
+from .forms import CreateCplForm, CreateGelarfForm, CreatePelatihanForm, CreateUserForm,CreateOrganisasiForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, CreatemahasiswaForm, UpdateCplForm, UpdateGelarfForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateSubCplForm
 
-from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
+from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
 
 def admin_home(request):
     all_mahasiswa_count = Mahasiswa.objects.all().count()
@@ -466,6 +466,9 @@ def manage_organisasi(request):
         'organisasi':organisasi,
     }
     return render(request,'skpi/organisasi/index.html',context)
+
+
+
 
 
 

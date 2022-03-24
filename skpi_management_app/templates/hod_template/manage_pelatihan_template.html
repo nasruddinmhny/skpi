@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block main_content %}
 <div class="page-heading">
-    <h1 class="page-title">Data Staff</h1>
+    <h1 class="page-title">Data Gelar</h1>
     <div class="row">
         <div class="col-md-12">
             {% if messages %}
@@ -21,33 +21,34 @@
         <div class="ibox-head">
             <div class="ibox-title">
                 Data
-                <a href="{% url 'add_staff' %}" class="btm btn-primary btn-sm">Tambah</a>
+                <a href="{% url 'add_pelatihan' %}" class="btn btn-primary btn-sm">Tambah</a>
             </div>
         </div>
         <div class="ibox-body">
-            <table class="table table-striped table-bordered table-hover" id="tbstaff" cellspacing="0" width="100%">
+            <table class="table table-striped table-bordered table-hover" id="tbfakultas" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>USERNAME</th>
-                        <th>USER TYPE</th>
-                        <th>PROGRAM STUDI</th>
+                        <th>KEGIATAN</th>
+                        <th>PENYELENGGARA</th>
+                        <th>PELATIHAN</th>
+                        <th>MAHASISWA</th>
                         <th>AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for st in staff  %}
+                    {% for p in pelatihan  %}
                     <tr>
-                        <td>{{ st.admin.username }}</td>
-                        <td>{{ st.admin.user_type}}</td>
-                        <td>{{ st.programstudi.nama}}</td>
+                        <td>{{ p.kegiatan }}</td>
+                        <td>{{ p.penyelenggara }}</td>
+                        <td>{{ p.tglpelatihan}}
+                        <td>{{ p.mahasiswa.admin.firstname}}
                         <td>
-                            <a href="{% url 'view_user' st.admin.id %}" class="btn btn-warning btn-sm" title="Edit">View</i></a>
-                            <a href="{% url 'edit_staff' st.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{st.id}}" title="Hapus">
+                            <a href="{% url 'update_gelar' g.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{g.id}}" title="Hapus">
                                 Hapus
                             </button>
                         </td>
-                        <div class="modal fade" id="hapus-{{ st.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="hapus-{{ g.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -57,11 +58,11 @@
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  Apakah data <strong>{{ st.admin.username | upper }}</strong> ingin Dihapus?
+                                  Apakah data <strong>{{ g.nama | upper }}</strong> ingin Dihapus?
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-                                  <a href="{% url 'hapus_staff' st.admin.id %}" class="btn btn-danger btn-sm">Hapus</a>
+                                  <a href="" class="btn btn-danger btn-sm">Hapus</a>
                                   
                                 </div>
                               </form>
@@ -76,14 +77,13 @@
         </div>
     </div>
 </div>
-
 {% endblock main_content %}
 
 {% block custom_js %}
 
 <script>
     $(document).ready(function() {
-        $('#tbstaff').DataTable({     
+        $('#tbfakultas').DataTable({     
             "iDisplayLength": 10
            } 
         );

@@ -1,8 +1,8 @@
-{% extends "hod_template/base_template.html" %}
+{% extends "staff_template/base_template.html" %}
 {% block main_content %}
 {% load crispy_forms_tags %}
 <div class="page-heading">
-    <h1 class="page-title">Halaman Staf</h1>
+    <h1 class="page-title">Halaman Mahasiswa</h1>
 </div>
 <div class="page-content fade-in-up">
     <div class="ibox">
@@ -12,35 +12,35 @@
             </div>
         </div>
         <div class="ibox-body">
-           <form method="POST" role="form">
+           <form method="POST" role="form" action="{% url 'staff_add_mahasiswa_save' %}">
             {% csrf_token %}
             {% comment %} Display Messages {% endcomment %}
             {% if messages %}
             <div class="form-group">
-            <div class="col-12 m-0">
-                {% for message in messages %}
-                {% if message.tags == "error" %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                {% elif message.tags == "success" %}
-                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                {% endif %}
-                {% endfor %}
-            </div>
+                <div class="col-12 m-0">
+                    {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% elif message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             {% endif %}
-                {{form|crispy}}
-            <button type="submit" class="btn btn-primary btn-sm">update</button>
-            <a href="{% url 'manage_staff' %}" class="btn btn-warning btn-sm">Batal</a>
+                {{ form_mahasiswa|crispy}}
+            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+            <a href="{% url 'staff_manage_mahasiswa' %}" class="btn btn-warning btn-sm">Batal</a>
            </form>
         </div>
     </div>
@@ -120,7 +120,7 @@
         })
     </script>
 
-  {% endblock custom_js %}
+{% endblock custom_js %}
     
 
 

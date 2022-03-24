@@ -1,8 +1,9 @@
 from distutils.command.clean import clean
 from django import forms
-from .models import Cpl, CustomUser, Mahasiswa, Organisasi, PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar, SubAspekCpl
+from .models import Cpl, CustomUser, Mahasiswa, Organisasi, Pelatihan, PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar, SubAspekCpl
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.forms.widgets import NumberInput
 #form perguruan tinggi
 class CreatePerguruanTinggiForm(forms.ModelForm):
     class Meta:
@@ -13,6 +14,12 @@ class UpdatePerguruanTinggiForm(forms.ModelForm):
     class Meta:
         model = PerguruanTinggi
         fields = '__all__'
+#update customeuser
+class UpdateCustomeuseForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username','first_name','last_name','email']
+        #exclude = ['user_type']
 
 #form fakultas
 class CreateFakultasForm(forms.ModelForm):
@@ -66,7 +73,12 @@ class CreateStaffForm(forms.ModelForm):
 class UpdateStaffForm(forms.ModelForm):
     class Meta:
         model = Staff
-        exclude=['admin']
+        fields = ['address','programstudi']
+
+class UpdateMAhasiswaForm(forms.ModelForm):
+    class Meta:
+        model = Mahasiswa
+        fields = ['nim','gender','tgllahir','tempatlahir','programstudi','address']
 
 #gelar
 class CreateGelarfForm(forms.ModelForm):
@@ -141,4 +153,16 @@ class CreateCustomUserForm(UserCreationForm):
         return email1
 
 
+class CreatePelatihanForm(forms.ModelForm):
+    class Meta:
+        model = Pelatihan
+        fields = '__all__'
+    
+   
+    tglpelatihan = forms.DateField(widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
+
+class UpdatePelatihanForm(forms.ModelForm):
+    class Meta:
+        model = Pelatihan
+        fields = '__all__'
 

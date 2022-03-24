@@ -10,6 +10,9 @@ urlpatterns = [
     path('',views.loginPage,name="login"),
     path('doLogin/', views.doLogin, name="doLogin"),
     path('logout_user/',views.logout_user,name='logout_user'),
+    path('update_user/<int:user_id>/',adminHome.update_user,name='update_user'),
+    path('view_user_staff/<int:user_id>/',adminHome.view_user_staff,name='view_user_staff'),
+    path('view_user_mahasiswa/<int:user_id>/',adminHome.view_user_mahasiswa,name='view_user_mahasiswa'),
     path('get_user_details/',views.get_user_details,name='get_user_details'),
     path('admin_home/',adminHome.admin_home,name='admin-home'),
     path('admin_profile/',adminHome.admin_profile,name='admin_profile'),
@@ -26,12 +29,12 @@ urlpatterns = [
     path('add_staff/',adminHome.add_staff,name='add_staff'),
     path('add_staff_save/',adminHome.add_staff_save,name="add_staff_save"),
     path('edit_staff/<int:staff_id>/',adminHome.edit_staff,name="edit_staff"),
-    path('edit_staff_save/',adminHome.edit_staff_save,name="edit_staff_save"),
     path('hapus_staff/<int:staff_id>/',adminHome.hapus_staff,name='hapus_staff'),
     path('manage_mahasiswa/',adminHome.manage_mahasiswa,name='manage_mahasiswa'),
     path('add_mahasiswa/',adminHome.add_mahasiswa,name='add_mahasiswa'),
     path('add_mahasiswa_save/', adminHome.add_mahasiswa_save,name='add_mahasiswa_save'),
     path('hapus_mahasiswa/<int:mahasiswa_id>/',adminHome.hapus_mahasiswa,name='hapus_mahasiswa'),
+    path('update_mahasiswa/<int:user_id>/',adminHome.update_mahasiswa,name='update_mahasiswa'),
     path('manage_gelar/',adminHome.manage_gelar,name='manage_gelar'),
     path('update_gelar/<int:gelar_id>/',adminHome.update_gelar,name='update_gelar'),
     path('manage_cpl/',adminHome.manage_cpl,name='manage_cpl'),
@@ -43,8 +46,15 @@ urlpatterns = [
 
     #staff
     path('staff_home/',StaffViews.staff_home,name='staff-home'),
+    path('staff_manage_mahasiswa/',StaffViews.manage_mahasiswa,name='staff_manage_mahasiswa'),
+    path('staff_add_mahasiswa/',StaffViews.add_mahasiswa,name='staff_add_mahasiswa'),
+    path('staff_add_mahasiswa_save/', StaffViews.add_mahasiswa_save,name='staff_add_mahasiswa_save'),
+    path('staff_hapus_mahasiswa/<int:mahasiswa_id>/',StaffViews.hapus_mahasiswa,name='staff_hapus_mahasiswa'),
 
-
+    #pelatihan
+    path('manage_pelatihan/',adminHome.manage_pelatihan,name='manage_pelatihan'),
+    path('add_pelatihan/',adminHome.add_pelatihan,name='add_pelatihan'),
+    path('add_pelatihan_save/', adminHome.add_pelatihan_save,name='add_pelatihan_save'),
 
 
     path('check_email_exist/', adminHome.check_email_exist, name="check_email_exist"),

@@ -1,0 +1,77 @@
+{% extends "hod_template/base_template.html" %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+        <div class="col-md-12 mt-3">
+            <div class="card p-3 py-4">
+                <div class="text-center"> <img src="https://i.imgur.com/bDLhJiP.jpg" width="100" class="rounded-circle"> </div>
+                <div class="text-center mt-3"> <span class="bg-secondary p-1 px-4 rounded text-white">Pro</span>
+                    <h5 class="mt-2 mb-0">{{ customuser.first_name }}{{ customuser.last_name}}</h5> <span>UI/UX Designer</span>
+                    <div class="px-4 mt-1">
+                        <p class="fonts"></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <p class="font-strong">Information</p>
+                            </div>
+                            <table class="table table-striped align-left" align="left">
+                                <tbody>
+                                    <tr>
+                                        <td>Nama :</td>
+                                        <td>{{ customuser.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nim :</td>
+                                        <td>{{mahasiswa.nim}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gender :</td>
+                                        <td>{{ mahasiswa.gender}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal Lahir :</td>
+                                        <td>{{ mahasiswa.tgllahir}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tempat Lahir :</td>
+                                        <td>{{ mahasiswa.tempatlahir}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jurusan :</td>
+                                        <td>{{mahasiswa.programstudi.nama}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat :</td>
+                                        <td>{{ mahasiswa.address}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <p class="font-strong">Pelatihan</p>
+                            </div>
+                            <table class="table">
+                                <tr>
+                                    <td>1</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <p class="font-strong">Organisasi</p>
+                            </div>
+                            <table class="table">
+                                <tr>
+                                    <td>1</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                    </div>
+                   
+                   <a href="{% url 'manage_mahasiswa' %}" class="btn btn-primary">Kembali</a> </div>
+                </div>
+            </div>
+        </div>
+{% endblock main_content %}

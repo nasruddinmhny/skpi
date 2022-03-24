@@ -7,9 +7,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm,CreateOrganisasiForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateGelarfForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateSubCplForm
+from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm,CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
 
-from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
+from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
 
 def admin_home(request):
     all_mahasiswa_count = Mahasiswa.objects.all().count()
@@ -222,49 +222,21 @@ def add_staff_save(request):
         
 
 def edit_staff(request,staff_id):
-    staff = Staff.objects.get(admin=staff_id)
-    prodi = ProgramStudi.objects.all()
+    staff = Staff.objects.get(id=staff_id)
+    print(staff)
+    if request.method == 'POST':
+        form = UpdateStaffForm(request.POST,instance=staff)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Data Staff Diupdate")
+            return redirect('manage_staff')
+    else:
+        form = UpdateStaffForm(instance=staff)
     context={
-        'staff':staff,
-        'id':staff_id,
-        'prodi':prodi,
+    
+        'form':form,
     }
     return render(request,'hod_template/edit_staff_template.html',context)
-
-def edit_staff_save(request):
-    if request.method != "POST":
-        return HttpResponse("<h2>Method Not Allowed</h2>")
-    else:
-        staff_id = request.POST.get('staff_id')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        address = request.POST.get('address')
-        programstudi = ProgramStudi.objects.get(id=request.POST.get('programstudi'))
-
-        try:
-            # INSERTING into Customuser Model
-            user = CustomUser.objects.get(id=staff_id)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.email = email
-            user.username = username
-            user.save()
-            
-            # INSERTING into Staff Model
-            staff_model = Staff.objects.get(admin=staff_id)
-            staff_model.address = address
-            staff_model.programstudi = programstudi
-            staff_model.save()
-
-            messages.success(request, "Staff Updated Successfully.")
-            return redirect('manage_staff')
-
-        except:
-            messages.error(request, "Failed to Update Staff.")
-            return redirect('/edit_staff/'+staff_id)
-
 
 
 def hapus_staff(request,staff_id):
@@ -301,7 +273,7 @@ def add_mahasiswa_save(request):
             messages.success(request,'Data User Disimpan')  
             return redirect('add_mahasiswa')
     else:
-        form_user = CreateCustomUserForm()
+        form_mahasiswa = CreateCustomUserForm() 
         
     context = {
         'form_mahasiswa':form_mahasiswa,
@@ -336,6 +308,35 @@ def add_mahasiswa_save(request):
             messages.error(request, "Data Mahasiswa gagal Di Tambah!")
             return redirect('add_mahasiswa')
         '''
+def update_mahasiswa(request,user_id):
+    customuser = CustomUser.objects.get(id=user_id)
+    mahasiswa= Mahasiswa.objects.get(admin=user_id)
+    print(customuser)
+    print(mahasiswa)
+
+    if request.method == 'POST':
+        form = UpdateCustomeuseForm(request.POST,instance=customuser)
+        form_mahasiswa = UpdateMAhasiswaForm(request.POST,instance=mahasiswa)
+        if form.is_valid() and form_mahasiswa.is_valid():
+            form.save()
+            form_mahasiswa.save()
+            messages.success(request, "Data Di update")
+            return redirect('manage_mahasiswa')
+        #else:
+            #messages.error(request, "Data gagal update")
+            #return redirect('update_mahasiswa',mahasiswa.admin.id)
+    else:
+        form = UpdateCustomeuseForm(instance=customuser)
+        form_mahasiswa = UpdateMAhasiswaForm(instance=mahasiswa)
+
+
+    context={
+        'customuser':customuser,
+        'form':form,
+        'form_staff':form_mahasiswa,
+    }
+    return render(request,'hod_template/edit_mahasiswa_template.html',context)
+
 
 def hapus_mahasiswa(request,mahasiswa_id):
     mahasiswa = Mahasiswa.objects.get(admin=mahasiswa_id)
@@ -490,6 +491,86 @@ def manage_organisasi(request):
     }
     return render(request,'skpi/organisasi/index.html',context)
 
+#update data user
+def update_user(request,user_id):
+    customuser = CustomUser.objects.get(id=user_id)
+
+    if request.method == 'POST':
+        form = UpdateCustomeuseForm(request.POST,instance=customuser)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Data Di Hapus")
+            return redirect('admin_home')
+
+
+def view_user_staff(request,user_id):
+    customuser = CustomUser.objects.get(id=user_id)
+    staff = Staff.objects.get(admin=user_id)
+
+    if request.method == 'POST':
+        form = UpdateCustomeuseForm(request.POST,instance=customuser)
+        form_staff = UpdateStaffForm(request.POST,instance=staff)
+        if form.is_valid() and form_staff.is_valid():
+            form.save()
+            form_staff.save()
+            messages.success(request, "Data Di update")
+            return redirect('view_user',customuser.id)
+        else:
+            messages.error(request, "Data gagal update")
+            return redirect('view_user',customuser.id)
+    else:
+        form = UpdateCustomeuseForm(instance=customuser)
+        form_staff = UpdateStaffForm(instance=staff)
+
+
+    context={
+        'customuser':customuser,
+        'form':form,
+        'form_staff':form_staff,
+    }
+    return render(request,'hod_template/view_user_template.html',context)
+
+def view_user_mahasiswa(request,user_id):
+    customuser = CustomUser.objects.get(id=user_id)
+    mahasiswa = Mahasiswa.objects.get(admin=user_id)
+    print(mahasiswa)
+    print(customuser)
+    context={
+        'customuser':customuser,
+        'mahasiswa':mahasiswa,
+       
+    }
+    return render(request,'hod_template/view_mahasiswa_template.html',context)
+
+def manage_pelatihan(request):
+    pelatihan = Pelatihan.objects.all()
+    context = {
+        'pelatihan':pelatihan,
+    }
+    return render(request,'hod_template/manage_pelatihan_template.html',context)
+
+def add_pelatihan(request):
+    form_pelatihan = CreatePelatihanForm()    
+    context = {
+        'form_pelatihan':form_pelatihan,
+    }
+    return render(request,'hod_template/add_pelatihan_template.html',context)
+
+def add_pelatihan_save(request):
+    if request.method == 'POST':
+        form_pelatihan = CreatePelatihanForm(request.POST)
+        if form_pelatihan.is_valid():
+            form_pelatihan.save()
+            messages.success(request, "Data Disimpan!")
+            return redirect('manage_pelatihan')
+    else:
+        form_pelatihan = CreatePelatihanForm()
+    context = {
+        'form_pelatihan':form_pelatihan,
+    }
+    return render(request,'hod_template/add_pelatihan_template.html',context)
+    
 
 
 @csrf_exempt

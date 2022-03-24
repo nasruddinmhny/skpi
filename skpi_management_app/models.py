@@ -163,11 +163,9 @@ class Mahasiswa(models.Model):
 
     class Meta:
         verbose_name_plural = "Mahasiswa"
-        unique_together = ['nim']
-
 
     def __str__(self):
-        return f'{self.nim} - {self.nama}'
+        return f'{self.nim}'
     
 
 
@@ -255,7 +253,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 2:
             Staff.objects.create(admin=instance)
         if instance.user_type == 3:
-            Mahasiswa.objects.create(admin=instance,nim='0',gender='LAKI-LAKI',tempatlahir='Balikpapan',tgllahir='2000-01-01')
+            Mahasiswa.objects.create(admin=instance,gender='LAKI-LAKI',tempatlahir='Balikpapan',tgllahir='2000-01-01')
 
 @receiver(post_save,sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
