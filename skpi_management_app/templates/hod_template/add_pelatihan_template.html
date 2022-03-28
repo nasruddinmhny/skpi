@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="ibox-body">
-           <form method="POST" role="form" action="{% url 'add_pelatihan_save' %}">
+           <form method="POST" role="form"  action="{% url 'add_pelatihan_save' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {% comment %} Display Messages {% endcomment %}
             {% if messages %}

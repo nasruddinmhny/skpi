@@ -1,3 +1,4 @@
+from multiprocessing import context
 import os
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
@@ -7,7 +8,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm,CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
+from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm,CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePelatihanForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
 
 from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
 
@@ -545,6 +546,9 @@ def view_user_mahasiswa(request,user_id):
 
 def manage_pelatihan(request):
     pelatihan = Pelatihan.objects.all()
+    pel = Pelatihan.objects.select_related('mahasiswa').all()
+    
+
     context = {
         'pelatihan':pelatihan,
     }
@@ -559,18 +563,57 @@ def add_pelatihan(request):
 
 def add_pelatihan_save(request):
     if request.method == 'POST':
-        form_pelatihan = CreatePelatihanForm(request.POST)
+        form_pelatihan = CreatePelatihanForm(request.POST,request.FILES)
         if form_pelatihan.is_valid():
             form_pelatihan.save()
             messages.success(request, "Data Disimpan!")
             return redirect('manage_pelatihan')
     else:
-        form_pelatihan = CreatePelatihanForm()
+        form_pelatihan = CreatePelatihanForm(request.FILES)
     context = {
         'form_pelatihan':form_pelatihan,
     }
     return render(request,'hod_template/add_pelatihan_template.html',context)
-    
+
+def hapus_pelatihan(request,pelatihan_id):
+    pelatihan = Pelatihan.objects.get(id=pelatihan_id)
+
+    if len(pelatihan.image) > 0:
+        os.remove(pelatihan.image.path)
+        pelatihan.delete()
+        messages.success(request, 'Data Dihapus.')
+        return redirect('manage_pelatihan')
+    else:
+        pelatihan.delete()
+        messages.success(request, 'Data Dihapus.')
+        return redirect('manage_pelatihan')
+
+def update_pelatihan(request,pelatihan_id):
+
+    pelatihan = Pelatihan.objects.get(id=pelatihan_id)
+
+    if request.method == 'POST':
+        form_pelatihan = UpdatePelatihanForm(request.POST,request.FILES,instance=pelatihan)
+        if len(request.FILES) !=0 :
+            if len(pelatihan.image) > 0:
+                os.remove(pelatihan.image.path)
+                if form_pelatihan.is_valid():
+                    form_pelatihan.save()
+                    messages.success(request, 'Data Diupdate.')
+                    return redirect('update_pelatihan',pelatihan.id)
+            
+    else:
+        form_pelatihan = UpdatePelatihanForm(instance=pelatihan)
+    context={
+        'form_pelatihan':form_pelatihan,
+    }
+    return render(request,'hod_template/edit_pelatihan_template.html',context)
+
+
+def manage_prestasi(request):
+    pass
+
+
 
 
 @csrf_exempt

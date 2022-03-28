@@ -1,4 +1,6 @@
+from cProfile import label
 from distutils.command.clean import clean
+from fileinput import FileInput
 from django import forms
 from .models import Cpl, CustomUser, Mahasiswa, Organisasi, Pelatihan, PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar, SubAspekCpl
 from django.contrib.auth.forms import UserCreationForm
@@ -76,9 +78,16 @@ class UpdateStaffForm(forms.ModelForm):
         fields = ['address','programstudi']
 
 class UpdateMAhasiswaForm(forms.ModelForm):
+
+    tgllahir = forms.DateField(label='Tgl. Lahir',widget=NumberInput(attrs={'type': 'date'}))
+    tempatlahir = forms.CharField(label='Temp. Lahir')
+    address = forms.CharField(label='Alamat')
+
     class Meta:
         model = Mahasiswa
         fields = ['nim','gender','tgllahir','tempatlahir','programstudi','address']
+
+        
 
 #gelar
 class CreateGelarfForm(forms.ModelForm):
@@ -127,8 +136,8 @@ class UpdateOrganisasiForm(forms.ModelForm):
 
 class CreateCustomUserForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput)
-    password1 = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Password',widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password',widget=forms.PasswordInput)
 
     class Meta:
         model = CustomUser
@@ -141,7 +150,7 @@ class CreateCustomUserForm(UserCreationForm):
         p2 = cleaned_data.get('password2')
 
         if p1 != p2:
-            raise forms.ValidationError('your password dont match')
+            raise forms.ValidationError('Password tidak sesuai!')
         return cleaned_data
 
     def clean_email(self):
@@ -149,7 +158,7 @@ class CreateCustomUserForm(UserCreationForm):
 
         email1 = cleaned_data.get('email')
         if CustomUser.objects.filter(email=email1):
-            raise forms.ValidationError("email address is already exist")
+            raise forms.ValidationError("Email Sudah Ada!")
         return email1
 
 
@@ -159,10 +168,12 @@ class CreatePelatihanForm(forms.ModelForm):
         fields = '__all__'
     
    
-    tglpelatihan = forms.DateField(widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
+    tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
 
 class UpdatePelatihanForm(forms.ModelForm):
     class Meta:
         model = Pelatihan
         fields = '__all__'
-
+        
+    #image = forms.ImageField(label='Image',widget = FileInput())
+    tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))

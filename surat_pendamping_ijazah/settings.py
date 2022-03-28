@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    
 
     #custome
     'skpi_management_app.LoginCheckMiddleWare.LoginCheckMiddleWare',
@@ -146,3 +147,9 @@ AUTH_USER_MODEL = "skpi_management_app.CustomUser"
 
 # Registering Custom Backend "EmailBackEnd"
 AUTHENTICATION_BACKENDS = ['skpi_management_app.EmailBackEnd.EmailBackEnd']
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]

@@ -16,6 +16,8 @@ urlpatterns = [
     path('get_user_details/',views.get_user_details,name='get_user_details'),
     path('admin_home/',adminHome.admin_home,name='admin-home'),
     path('admin_profile/',adminHome.admin_profile,name='admin_profile'),
+
+    #perguruan tinggi
     path('manage_perguruan_tinggi/',adminHome.manage_perguruantinggi,name='manage_perguruan_tinggi'),
     path('hapus_perguruan_tinggi/<int:perguruantinggi_id>/',adminHome.hapus_perguruantinggi,name='hapus_perguruan_tinggi'),
     path('update_perguruan_tinggi/<int:perguruantinggi_id>/update',adminHome.edit_perguruantinggi,name='edit_perguruan_tinggi'),
@@ -55,6 +57,9 @@ urlpatterns = [
     path('manage_pelatihan/',adminHome.manage_pelatihan,name='manage_pelatihan'),
     path('add_pelatihan/',adminHome.add_pelatihan,name='add_pelatihan'),
     path('add_pelatihan_save/', adminHome.add_pelatihan_save,name='add_pelatihan_save'),
+    path('hapus_pelatihan/<int:pelatihan_id>/', adminHome.hapus_pelatihan,name='hapus_pelatihan'),
+    path('update_pelatihan/<int:pelatihan_id>/', adminHome.update_pelatihan,name='update_pelatihan'),
+
 
 
     path('check_email_exist/', adminHome.check_email_exist, name="check_email_exist"),

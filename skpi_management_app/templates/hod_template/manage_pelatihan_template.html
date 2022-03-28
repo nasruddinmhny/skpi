@@ -1,23 +1,27 @@
 {% extends "hod_template/base_template.html" %}
 {% load crispy_forms_tags %}
 {% block main_content %}
-<div class="page-heading">
-    <h1 class="page-title">Data Gelar</h1>
-    <div class="row">
-        <div class="col-md-12">
-            {% if messages %}
-            {% for message in messages  %}
-                <div class="alert alert-success">
-                  <a class="close" data-dismiss="alert">×</a>
-                  {{ message }}
-                </div>
-            {% endfor %}
-          {% endif %}
-        </div>
-    </div>
-</div>
 <div class="page-content fade-in-up">
     <div class="ibox">
+        <div class="page-heading">
+            <div class="row">
+                <div class="col-md-12 ml-3">
+                    <h1 class="page-title">Data Pelatihan</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% if messages %}
+                    {% for message in messages  %}
+                        <div class="alert alert-success">
+                        <a class="close" data-dismiss="alert">×</a>
+                        {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
         <div class="ibox-head">
             <div class="ibox-title">
                 Data
@@ -41,14 +45,14 @@
                         <td>{{ p.kegiatan }}</td>
                         <td>{{ p.penyelenggara }}</td>
                         <td>{{ p.tglpelatihan}}
-                        <td>{{ p.mahasiswa.admin.firstname}}
+                        <td>{{ p.mahasiswa.admin}}
                         <td>
-                            <a href="{% url 'update_gelar' g.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{g.id}}" title="Hapus">
+                            <a href="{% url 'update_pelatihan' p.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{p.id}}" title="Hapus">
                                 Hapus
                             </button>
                         </td>
-                        <div class="modal fade" id="hapus-{{ g.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="hapus-{{ p.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -58,11 +62,11 @@
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  Apakah data <strong>{{ g.nama | upper }}</strong> ingin Dihapus?
+                                  Apakah data <strong>{{ p.kegiatan | upper }}</strong> ingin Dihapus?
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-                                  <a href="" class="btn btn-danger btn-sm">Hapus</a>
+                                  <a href="{% url 'hapus_pelatihan' p.id %}" class="btn btn-danger btn-sm">Hapus</a>
                                   
                                 </div>
                               </form>
