@@ -29,12 +29,11 @@
                     <div class="row">
                         <div class="col-md-11 mt-8 float-left">
                             <div class="card-body">
-                                <form method="POST" role="form">
+                                <form method="POST" role="form" enctype="multipart/form-data">
                                     {% csrf_token %}
-                                    
-                                    {{ form_mahasiswa|crispy}}
+                                    {{ form_prestasi|crispy}}
                                     <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                    <a href="{% url 'manage_mahasiswa' %}" class="btn btn-warning btn-sm">Batal</a>
+                                    <a href="{% url 'manage_prestasi' %}" class="btn btn-warning btn-sm">Batal</a>
                                 </form>
                                 
                             </div>

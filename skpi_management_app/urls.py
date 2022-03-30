@@ -1,7 +1,7 @@
 from unicodedata import name
 from django.urls import path
 
-from skpi_management_app import StaffViews,adminHome
+from skpi_management_app import StaffViews, StudentViews,adminHome
 from . import views
 
 
@@ -27,16 +27,27 @@ urlpatterns = [
     path('manage_programstudi/',adminHome.manage_programstudi,name='manage_programstudi'),
     path('update_programstudi/<int:programstudi_id>',adminHome.update_programstudi,name='update_programstudi'),
     path('view_programstudi_detail/<int:programstudi_id>/',adminHome.view_programstudi_detail,name='view_programstudi_detail'),
+
+    #staff
     path('manage_staff/',adminHome.manage_staff,name='manage_staff'),
     path('add_staff/',adminHome.add_staff,name='add_staff'),
     path('add_staff_save/',adminHome.add_staff_save,name="add_staff_save"),
     path('edit_staff/<int:staff_id>/',adminHome.edit_staff,name="edit_staff"),
     path('hapus_staff/<int:staff_id>/',adminHome.hapus_staff,name='hapus_staff'),
+
+    #mahasiswa/admin
     path('manage_mahasiswa/',adminHome.manage_mahasiswa,name='manage_mahasiswa'),
+    path('manage_user_mahasiswa/',adminHome.manage_user_mahasiswa,name='manage_user_mahasiswa'),
     path('add_mahasiswa/',adminHome.add_mahasiswa,name='add_mahasiswa'),
     path('add_mahasiswa_save/', adminHome.add_mahasiswa_save,name='add_mahasiswa_save'),
     path('hapus_mahasiswa/<int:mahasiswa_id>/',adminHome.hapus_mahasiswa,name='hapus_mahasiswa'),
     path('update_mahasiswa/<int:user_id>/',adminHome.update_mahasiswa,name='update_mahasiswa'),
+
+    #mahasiswa/
+    path('mahasiswa_home/',StudentViews.student_home,name='student_home'),
+    path('student_view/',StudentViews.view_mahasiswa,name='student_view'),
+
+    #gelar
     path('manage_gelar/',adminHome.manage_gelar,name='manage_gelar'),
     path('update_gelar/<int:gelar_id>/',adminHome.update_gelar,name='update_gelar'),
     path('manage_cpl/',adminHome.manage_cpl,name='manage_cpl'),
@@ -53,12 +64,22 @@ urlpatterns = [
     path('staff_add_mahasiswa_save/', StaffViews.add_mahasiswa_save,name='staff_add_mahasiswa_save'),
     path('staff_hapus_mahasiswa/<int:mahasiswa_id>/',StaffViews.hapus_mahasiswa,name='staff_hapus_mahasiswa'),
 
-    #pelatihan
+    #pelatihan/admin
     path('manage_pelatihan/',adminHome.manage_pelatihan,name='manage_pelatihan'),
     path('add_pelatihan/',adminHome.add_pelatihan,name='add_pelatihan'),
     path('add_pelatihan_save/', adminHome.add_pelatihan_save,name='add_pelatihan_save'),
     path('hapus_pelatihan/<int:pelatihan_id>/', adminHome.hapus_pelatihan,name='hapus_pelatihan'),
     path('update_pelatihan/<int:pelatihan_id>/', adminHome.update_pelatihan,name='update_pelatihan'),
+
+    #pelatihan/mahasiswa
+    path('mahasiswa_pelatihan/',StudentViews.mahasiswa_manage_pelatihan,name='mahasiswa_pelatihan'),
+
+    #prestasi
+    path('manage_prestasi',adminHome.manage_prestasi,name='manage_prestasi'),
+    path('add_prestasi/',adminHome.add_prestasi,name='add_prestasi'),
+    path('add_prestasi_save/', adminHome.add_prestasi_save,name='add_prestasi_save'),
+    path('hapus_prestasi/<int:prestasi_id>/', adminHome.hapus_prestasi,name='hapus_prestasi'),
+    path('update_prestasi/<int:prestasi_id>/', adminHome.update_prestasi,name='update_prestasi'),
 
 
 

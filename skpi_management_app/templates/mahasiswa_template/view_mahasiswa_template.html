@@ -1,4 +1,4 @@
-{% extends "hod_template/base_template.html" %}
+{% extends "mahasiswa_template/base_template.html" %}
 {% load crispy_forms_tags %}
 {% block main_content %}
 <div class="row mt-2">
@@ -6,7 +6,7 @@
         <div class="card">
             <div class="row">
                 <div class="col-md-12 m-4">
-                    <h4>Update Form </h4>
+                    <h6>Detail Profil </h6>
                     <div class="col-11 m-0">
                         {% for message in messages %}
                         {% if message.tags == "error" %}
@@ -27,16 +27,14 @@
                         {% endfor %}
                     </div>
                     <div class="row">
-                        <div class="col-md-11 mt-8 float-left">
+                        <div class="col-md-11 mt-8">
                             <div class="card-body">
                                 <form method="POST" role="form">
                                     {% csrf_token %}
-                                    
-                                    {{ form_mahasiswa|crispy}}
+                                    {{ form|crispy}}
                                     <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                    <a href="{% url 'manage_mahasiswa' %}" class="btn btn-warning btn-sm">Batal</a>
+                                    <a href="{% url 'student_home' %}" class="btn btn-warning btn-sm">Batal</a>
                                 </form>
-                                
                             </div>
                         </div>
                     </div>

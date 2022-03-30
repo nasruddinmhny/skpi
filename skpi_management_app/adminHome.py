@@ -8,9 +8,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm,CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePelatihanForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
+from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm, CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreatePrestasiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePelatihanForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm, UpdatePrestasiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
 
-from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, PerguruanTinggi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
+from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, PerguruanTinggi, Prestasi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
 
 def admin_home(request):
     all_mahasiswa_count = Mahasiswa.objects.all().count()
@@ -260,6 +260,7 @@ def add_mahasiswa(request):
     form_mahasiswa = CreateCustomUserForm()
     context={
         'form_mahasiswa':form_mahasiswa,
+        
     }
     return render(request,'hod_template/add_mahasiswa_template.html',context)
 
@@ -269,7 +270,7 @@ def add_mahasiswa_save(request):
         if form_mahasiswa.is_valid():
             userForm = form_mahasiswa.save(commit=False)
             userForm.user_type = 3 
-            userForm.programstudi_id = ProgramStudi.objects.get(id=1)
+            #userForm.programstudi_id = ProgramStudi.objects.get(id=1)
             userForm.save()
             messages.success(request,'Data User Disimpan')  
             return redirect('add_mahasiswa')
@@ -310,33 +311,29 @@ def add_mahasiswa_save(request):
             return redirect('add_mahasiswa')
         '''
 def update_mahasiswa(request,user_id):
-    customuser = CustomUser.objects.get(id=user_id)
     mahasiswa= Mahasiswa.objects.get(admin=user_id)
-    print(customuser)
-    print(mahasiswa)
-
+   
     if request.method == 'POST':
-        form = UpdateCustomeuseForm(request.POST,instance=customuser)
         form_mahasiswa = UpdateMAhasiswaForm(request.POST,instance=mahasiswa)
-        if form.is_valid() and form_mahasiswa.is_valid():
-            form.save()
-            form_mahasiswa.save()
+        if form_mahasiswa.save():
             messages.success(request, "Data Di update")
             return redirect('manage_mahasiswa')
         #else:
             #messages.error(request, "Data gagal update")
             #return redirect('update_mahasiswa',mahasiswa.admin.id)
     else:
-        form = UpdateCustomeuseForm(instance=customuser)
+        
         form_mahasiswa = UpdateMAhasiswaForm(instance=mahasiswa)
 
 
     context={
-        'customuser':customuser,
-        'form':form,
-        'form_staff':form_mahasiswa,
+        'form_mahasiswa':form_mahasiswa,
     }
     return render(request,'hod_template/edit_mahasiswa_template.html',context)
+
+def manage_user_mahasiswa(request):
+    mahasiswa = Mahasiswa.objects.all()
+    return render(request,'hod_template/manage_user_mahasiswa_template.html',{'mahasiswa':mahasiswa})
 
 
 def hapus_mahasiswa(request,mahasiswa_id):
@@ -535,12 +532,12 @@ def view_user_staff(request,user_id):
 def view_user_mahasiswa(request,user_id):
     customuser = CustomUser.objects.get(id=user_id)
     mahasiswa = Mahasiswa.objects.get(admin=user_id)
-    print(mahasiswa)
-    print(customuser)
+    #mahasiswa = Mahasiswa.objects.select_related('pelatihan','organisasi').get(admin=user_id)
+    #pelatihan = Pelatihan.objects.get(mahasiswa=user_id)
+
     context={
         'customuser':customuser,
-        'mahasiswa':mahasiswa,
-       
+        'mahasiswa':mahasiswa,      
     }
     return render(request,'hod_template/view_mahasiswa_template.html',context)
 
@@ -611,9 +608,78 @@ def update_pelatihan(request,pelatihan_id):
 
 
 def manage_prestasi(request):
-    pass
+    prestasi = Prestasi.objects.all()
 
+    if request.method == 'POST':
+        form = CreatePrestasiForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Data Disimpan.')
+            return redirect('manage_prestasi')
+    else:
+        form = CreatePrestasiForm()
 
+    context={
+        'form':form,
+        'prestasi':prestasi,
+    }
+    return render(request,'hod_template/manage_prestasi_template.html', context)
+
+def add_prestasi(request):
+    form = CreatePrestasiForm()    
+    context = {
+        'form':form,
+    }
+    return render(request,'hod_template/add_prestasi_template.html',context)
+
+def add_prestasi_save(request):
+    if request.method == 'POST':
+        form_prestasi = CreatePrestasiForm(request.POST,request.FILES)
+        if form_prestasi.is_valid():
+            form_prestasi.save()
+            messages.success(request, "Data Disimpan!")
+            return redirect('add_prestasi')
+
+    else:
+        form_prestasi = CreatePrestasiForm(request.FILES)
+    context = {
+        'form_prestasi':form_prestasi,
+    }
+    return render(request,'hod_template/add_prestasi_template.html',context)
+
+def hapus_prestasi(request,prestasi_id):
+    prestasi = Prestasi.objects.get(id=prestasi_id)
+
+    if len(prestasi.images) > 0:
+        os.remove(prestasi.images.path)
+        prestasi.delete()
+        messages.success(request, 'Data Dihapus.')
+        return redirect('manage_prestasi')
+    else:
+        prestasi.delete()
+        messages.success(request, 'Data Dihapus.')
+        return redirect('manage_prestasi')
+
+def update_prestasi(request,prestasi_id):
+    
+    prestasi = Prestasi.objects.get(id=prestasi_id)
+
+    if request.method == 'POST':
+        form_prestasi = UpdatePrestasiForm(request.POST,request.FILES,instance=prestasi)
+        if len(request.FILES) !=0 :
+            if len(prestasi.images) > 0:
+                os.remove(prestasi.images.path)
+                if form_prestasi.is_valid():
+                    form_prestasi.save()
+                    messages.success(request, 'Data Diupdate.')
+                    return redirect('update_prestasi',prestasi.id)
+            
+    else:
+        form_prestasi = UpdatePrestasiForm(instance=prestasi)
+    context={
+        'form_prestasi':form_prestasi,
+    }
+    return render(request,'hod_template/edit_prestasi_template.html',context)
 
 
 @csrf_exempt

@@ -21,7 +21,7 @@
         <div class="ibox-head">
             <div class="ibox-title">
                 Data
-                <a href="{% url 'add_mahasiswa' %}" class="btm btn-primary btn-sm">Tambah</a>
+                <!-- <a href="{% url 'add_mahasiswa' %}" class="btm btn-primary btn-sm">Tambah</a>-->
             </div>
         </div>
         <div class="ibox-body">
@@ -29,7 +29,6 @@
                 <thead>
                     <tr>
                         <th>NIM</th>
-                        <th>USER TYPE</th>
                         <th>PROGRAM STUDI</th>
                         <th>AKSI</th>
                     </tr>
@@ -37,8 +36,7 @@
                 <tbody>
                     {% for mhs in mahasiswa  %}
                     <tr>
-                        <td>1{{ mhs.admin.username}}</td>
-                        <td>{{ mhs.admin.user_type}}</td>
+                        <td>{{ mhs.admin.username}}</td>
                         <td>{{ mhs.programstudi.nama}}</td>
                         <td>
                             <a href="{% url 'view_user_mahasiswa' mhs.admin.id %}" class="btn btn-warning btn-sm" title="Edit">View</i></a>

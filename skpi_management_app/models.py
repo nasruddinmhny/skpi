@@ -153,8 +153,8 @@ class Mahasiswa(models.Model):
     )
     gender = models.CharField(max_length=50,choices=JK)
     address = models.TextField(blank=True,max_length=250,null=True)
-    tempatlahir = models.CharField(max_length=200)
-    tgllahir = models.DateField(auto_created=True,blank=True)
+    tempatlahir = models.CharField(max_length=200,null=True)
+    tgllahir = models.DateField(auto_created=True,null=True)
     programstudi = models.ForeignKey(ProgramStudi,on_delete=models.CASCADE, blank=True, null=True, verbose_name="Program Studi")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -253,7 +253,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 2:
             Staff.objects.create(admin=instance)
         if instance.user_type == 3:
-            Mahasiswa.objects.create(admin=instance,gender='LAKI-LAKI',tempatlahir='Balikpapan',tgllahir='2000-01-01')
+            Mahasiswa.objects.create(admin=instance)
 
 @receiver(post_save,sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):

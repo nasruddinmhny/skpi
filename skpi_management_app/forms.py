@@ -1,8 +1,7 @@
-from cProfile import label
+
 from distutils.command.clean import clean
-from fileinput import FileInput
 from django import forms
-from .models import Cpl, CustomUser, Mahasiswa, Organisasi, Pelatihan, PerguruanTinggi,Fakultas, ProgramStudi, Staff,Gelar, SubAspekCpl
+from .models import Cpl, CustomUser, Mahasiswa, Organisasi, Pelatihan, PerguruanTinggi,Fakultas, Prestasi, ProgramStudi, Staff,Gelar, SubAspekCpl
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import NumberInput
@@ -177,3 +176,16 @@ class UpdatePelatihanForm(forms.ModelForm):
         
     #image = forms.ImageField(label='Image',widget = FileInput())
     tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
+
+#prestasi
+class CreatePrestasiForm(forms.ModelForm):
+    tglkegiatan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date'}))
+    class Meta:
+        model = Prestasi
+        fields = '__all__'
+
+class UpdatePrestasiForm(forms.ModelForm):
+    tglkegiatan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date'}))
+    class Meta:
+        model = Prestasi
+        fields = '__all__'

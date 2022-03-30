@@ -10,34 +10,27 @@
         </div>
         <ul class="side-menu metismenu">
             <li>
-                <a class="active" href="{% url 'staff-home' %}"><i class="sidebar-item-icon fa fa-th-large"></i>
-                    <span class="nav-label">{{ user.username }}</span>
+                <a class="active" href="{% url 'student_home' %}"><i class="sidebar-item-icon fa fa-th-large"></i>
+                    <span class="nav-label">{{ user.first_name}}</span>
                 </a>
             </li>
             <li class="heading">Manage Data</li>
                 <li>
                 <a href="javascript:;"><i class="sidebar-item-icon "></i>
-                    <span class="nav-label">Profil</span><i class="fa fa-angle-left arrow"></i></a>
+                    <span class="nav-label">Mahasiswa</span><i class="fa fa-angle-left arrow"></i></a>
                 <ul class="nav-2-level collapse">
                     <li>
-                        <a href="{% url 'manage_gelar' %}">Data Mahasiswa</a>
+                        <a href="{% url 'student_view' %}">Personal</a>
                     </li>
                     <li>
-                        <a href="{% url 'manage_cpl' %}">Aspek CPL</a>
+                        <a href="{% url 'mahasiswa_pelatihan' %}">Pelatihan</a>
                     </li>
                     <li>
-                        <a href="{% url 'manage_subcpl' %}">Sub Aspek CPL</a>
+                        <a href="">Prestasi</a>
                     </li>
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;"><i class="sidebar-item-icon"></i>
-                    <span class="nav-label">Laporan</span><i class="fa fa-angle-left arrow"></i></a>
-                <ul class="nav-2-level collapse">
                     <li>
-                        <a href="">SKPI</a>
+                        <a href="">Organisasi</a>
                     </li>
-                    
                 </ul>
             </li>
         </ul>
