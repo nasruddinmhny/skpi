@@ -7,7 +7,7 @@
     <div class="row mb-2">
         <div class="col-lg-6">
             <div class="card">
-                <h6 class="card-header">PROFIL</h6>
+                <h6 class="card-header bg-teal">PROFIL</h6>
                 <div class="card-body">
                   <h5 class="card-title"><span class="badge badge-warning">Data Personal</span></h5>
                   <table class="table">
@@ -15,7 +15,7 @@
                             <td>Nim</td><td>: {{mahasiswa.nim}}</td>
                         </tr>
                         <tr>
-                            <td>Nama :</td><td>: {{customuser.first_name}}</td>
+                            <td>Nama</td><td>: {{customuser.first_name}}</td>
                         </tr>
                         <tr>
                             <td>Jenis Kelamin</td><td>: {{mahasiswa.gender}}</td>
@@ -39,7 +39,8 @@
                     <tr>
                         <td>E-mail</td><td>: {{customuser.email}}</td>
                     </tr>
-              </table>
+                    </table>
+                    <a href="{% url 'mahasiswa_manage_pelatihan' %}" class="btn btn-outline-warning btn-sm">View Data</a>
                 </div>
             </div>
         </div>
@@ -48,8 +49,15 @@
                 <h6 class="card-header">ORGANISASI</h6>
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <table class="table">
+                    <tr>
+                        <td>Kegiatan</td><td>: {{mahasiswa.address}}</td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td><td>: {{customuser.email}}</td>
+                    </tr>
+                    </table>
+                    <a href="" class="btn btn-outline-warning btn-sm">View Data</a>
                 </div>
             </div>
         </div>
@@ -58,11 +66,25 @@
     <div class="row mb-2">
         <div class="col-lg-6">
             <div class="card">
-                <h6 class="card-header">PELATIHAN / WORKSHOP</h6>
+                <h6 class="card-header bg-teal">PELATIHAN / WORKSHOP</h6>
                 <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <h5 class="card-title"><span class="badge badge-warning">Pelatihan</span></h5>
+                    <table class="table table-sm">
+                     <thead>
+                         <th>Pelatihan</th>
+                         <th>Waktu</th>
+                     </thead>
+                      <tbody>
+                          {% for pel in pelatihan %}
+                            <tr>
+                                <td>{{ pel.kegiatan}}</td>
+                                <td>{{ pel.tglpelatihan}}</td>
+                            </tr>
+                          {% endfor %}
+                        
+                      </tbody>
+                    </table>
+                    <a href="{% url 'mahasiswa_manage_pelatihan' %}" class="btn btn-outline-warning btn-sm">View Data</a>
                 </div>
             </div>
         </div>

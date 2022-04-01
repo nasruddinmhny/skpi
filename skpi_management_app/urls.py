@@ -72,7 +72,9 @@ urlpatterns = [
     path('update_pelatihan/<int:pelatihan_id>/', adminHome.update_pelatihan,name='update_pelatihan'),
 
     #pelatihan/mahasiswa
-    path('mahasiswa_pelatihan/',StudentViews.mahasiswa_manage_pelatihan,name='mahasiswa_pelatihan'),
+    path('mahasiswa_pelatihan/',StudentViews.mahasiswa_manage_pelatihan,name='mahasiswa_manage_pelatihan'),
+    path('mahasiswa_add_pelatihan/',StudentViews.mahasiswa_add_pelatihan,name='mahasiswa_add_pelatihan'),
+    path('mahasiswa_add_pelatihan_save/',StudentViews.mahasiswa_add_pelatihan_save,name='mahasiswa_add_pelatihan_save'),
 
     #prestasi
     path('manage_prestasi',adminHome.manage_prestasi,name='manage_prestasi'),

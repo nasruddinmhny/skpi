@@ -1,4 +1,4 @@
-{% extends "hod_template/base_template.html" %}
+{% extends "mahasiswa_template/base_template.html" %}
 {% block main_content %}
 {% load crispy_forms_tags %}
 <div class="page-heading">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="ibox-body">
-           <form method="POST" role="form"  action="{% url 'add_pelatihan_save' %}" enctype="multipart/form-data">
+           <form method="POST" role="form"  action="{% url 'mahasiswa_add_pelatihan_save' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {% comment %} Display Messages {% endcomment %}
             {% if messages %}
@@ -40,7 +40,7 @@
             {% endif %}
                 {{ form_pelatihan|crispy}}
             <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-            <a href="{% url 'manage_pelatihan' %}" class="btn btn-warning btn-sm">Batal</a>
+            <a href="{% url 'mahasiswa_manage_pelatihan' %}" class="btn btn-warning btn-sm">Batal</a>
            </form>
         </div>
     </div>
