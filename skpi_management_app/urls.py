@@ -75,13 +75,22 @@ urlpatterns = [
     path('mahasiswa_pelatihan/',StudentViews.mahasiswa_manage_pelatihan,name='mahasiswa_manage_pelatihan'),
     path('mahasiswa_add_pelatihan/',StudentViews.mahasiswa_add_pelatihan,name='mahasiswa_add_pelatihan'),
     path('mahasiswa_add_pelatihan_save/',StudentViews.mahasiswa_add_pelatihan_save,name='mahasiswa_add_pelatihan_save'),
+    path('mahasiswa_hapus_pelatihan/<int:pelatihan_id>/', StudentViews.mahasiswa_hapus_pelatihan,name='mahasiswa_hapus_pelatihan'),
+    path('mahasiswa_update_pelatihan/<int:pelatihan_id>/', StudentViews.mahasiswa_update_pelatihan,name='mahasiswa_update_pelatihan'),
 
-    #prestasi
+    #prestasi/admin
     path('manage_prestasi',adminHome.manage_prestasi,name='manage_prestasi'),
     path('add_prestasi/',adminHome.add_prestasi,name='add_prestasi'),
     path('add_prestasi_save/', adminHome.add_prestasi_save,name='add_prestasi_save'),
     path('hapus_prestasi/<int:prestasi_id>/', adminHome.hapus_prestasi,name='hapus_prestasi'),
     path('update_prestasi/<int:prestasi_id>/', adminHome.update_prestasi,name='update_prestasi'),
+
+    #prestasi/mahasiswa
+    path('mahasiswa_manage_prestasi',StudentViews.mahasiswa_manage_prestasi,name='mahasiswa_manage_prestasi'),
+    path('mahasiswa_add_prestasi/',StudentViews.mahasiswa_add_prestasi,name='mahasiswa_add_prestasi'),
+    path('mahasiswa_add_prestasi_save/',StudentViews.mahasiswa_add_prestasi_save,name='mahasiswa_add_prestasi_save'),
+    path('mahasiswa_hapus_prestasi/<int:prestasi_id>/', StudentViews.mahasiswa_hapus_prestasi,name='mahasiswa_hapus_prestasi'),
+    path('mahasiswa_update_prestasi/<int:prestasi_id>/', StudentViews.mahasiswa_update_prestasi,name='mahasiswa_update_prestasi'),
 
 
 

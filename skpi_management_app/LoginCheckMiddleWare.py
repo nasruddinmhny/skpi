@@ -36,7 +36,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 elif modulname == 'skpi_management_app.views' or modulname == 'django.views.static':
                     pass
                 else:
-                    return redirect('studentHome_home')
+                    return redirect('student_home')
             
             else:
                 return redirect('login')

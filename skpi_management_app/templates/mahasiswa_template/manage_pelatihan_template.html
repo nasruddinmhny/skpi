@@ -56,7 +56,7 @@
                             <td>{{ p.tglpelatihan}}
                             <td>{{ p.mahasiswa.admin}}
                             <td>
-                                <a href="{% url 'update_pelatihan' p.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
+                                <a href="{% url 'mahasiswa_update_pelatihan' p.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{p.id}}" title="Hapus">
                                     Hapus
                                 </button>
@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-                                    <a href="{% url 'hapus_pelatihan' p.id %}" class="btn btn-danger btn-sm">Hapus</a>
+                                    <a href="{% url 'mahasiswa_hapus_pelatihan' p.id %}" class="btn btn-danger btn-sm">Hapus</a>
                                     
                                     </div>
                                 </form>

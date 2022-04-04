@@ -681,6 +681,13 @@ def update_prestasi(request,prestasi_id):
     }
     return render(request,'hod_template/edit_prestasi_template.html',context)
 
+def manage_organisasi(request):
+    organisasi = Organisasi.objects.all()
+
+    context = {
+        'organisasi':organisasi,
+    }
+    return render(request,'hod_template/manage_organisasi_template.html',context)
 
 @csrf_exempt
 def check_email_exist(request):

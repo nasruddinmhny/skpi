@@ -208,3 +208,15 @@ class UpdatePelatihanMhsForm(forms.ModelForm):
         
     #image = forms.ImageField(label='Image',widget = FileInput())
     tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
+
+class CreatePrestasiMhsForm(forms.ModelForm):
+    tglkegiatan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date'}))
+    class Meta:
+        model = Prestasi
+        exclude = ['mahasiswa']
+
+class UpdatePrestasiMhsForm(forms.ModelForm):
+    tglkegiatan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date'}))
+    class Meta:
+        model = Prestasi
+        exclude = ['mahasiswa']

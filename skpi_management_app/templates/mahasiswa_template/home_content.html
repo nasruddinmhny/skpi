@@ -4,9 +4,9 @@
 {% load static %}
 
 <div class="page-content fade-in-up">
-    <div class="row mb-2">
+    <div class="row">
         <div class="col-lg-6">
-            <div class="card">
+            <div class="card mb-1">
                 <h6 class="card-header bg-teal">PROFIL</h6>
                 <div class="card-body">
                   <h5 class="card-title"><span class="badge badge-warning">Data Personal</span></h5>
@@ -40,13 +40,11 @@
                         <td>E-mail</td><td>: {{customuser.email}}</td>
                     </tr>
                     </table>
-                    <a href="{% url 'mahasiswa_manage_pelatihan' %}" class="btn btn-outline-warning btn-sm">View Data</a>
+                    <a href="{% url 'student_view' %}" class="btn btn-outline-warning btn-sm">View Data</a>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
             <div class="card">
-                <h6 class="card-header">ORGANISASI</h6>
+                <h6 class="card-header bg-teal">ORGANISASI</h6>
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
                     <table class="table">
@@ -61,11 +59,8 @@
                 </div>
             </div>
         </div>
-    </div> 
-
-    <div class="row mb-2">
         <div class="col-lg-6">
-            <div class="card">
+            <div class="card mb-1">
                 <h6 class="card-header bg-teal">PELATIHAN / WORKSHOP</h6>
                 <div class="card-body">
                   <h5 class="card-title"><span class="badge badge-warning">Pelatihan</span></h5>
@@ -87,44 +82,31 @@
                     <a href="{% url 'mahasiswa_manage_pelatihan' %}" class="btn btn-outline-warning btn-sm">View Data</a>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
             <div class="card">
-                <h6 class="card-header">SEMINAR</h6>
+                <h6 class="card-header bg-teal">PRESTASI</h6>
                 <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <h6 class="card-header">PROFIL</h6>
-                <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <h6 class="card-header">PRESTASI</h6>
-                <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <h5 class="card-title"></h5>
+                  <table class="table table-sm">
+                    <thead>
+                        <th>Prestasi</th>
+                        <th>Waktu</th>
+                    </thead>
+                     <tbody>
+                         {% for pres in prestasi %}
+                           <tr>
+                               <td>{{ pres.namaprestasi}}</td>
+                               <td>{{ pres.tglkegiatan}}</td>
+                           </tr>
+                         {% endfor %}
+                       
+                     </tbody>
+                   </table>
+                  <a href="{% url 'mahasiswa_manage_prestasi' %}" class="btn btn-outline-warning btn-sm">view data</a>
                 </div>
             </div>
         </div>
     </div> 
-
 </div>
-
 {% endblock main_content %}
 
 
