@@ -211,7 +211,7 @@ class Pelatihan(models.Model):
     kegiatan = models.CharField(max_length=150, blank=True, verbose_name='Kegiatan')
     tglpelatihan = models.DateField(auto_created=True, verbose_name='Tgl. Pelatihan')
     penyelenggara = models.CharField(max_length=150, blank=True, verbose_name='Penyelenggara')
-    Status = models.CharField(max_length=150,blank=True,verbose_name='Status')
+    status = models.CharField(max_length=150,blank=True,verbose_name='Status')
     image= models.ImageField(upload_to='img_pelatihan',null=False, verbose_name='Image')
     mahasiswa = models.ForeignKey(Mahasiswa,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

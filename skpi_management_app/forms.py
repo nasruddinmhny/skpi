@@ -164,9 +164,9 @@ class CreateCustomUserForm(UserCreationForm):
 class CreatePelatihanForm(forms.ModelForm):
     class Meta:
         model = Pelatihan
-        fields = '__all__'
+        fields = ['kegiatan','tglpelatihan','penyelenggara','status','image','mahasiswa']
     
-   
+
     tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
 
 class UpdatePelatihanForm(forms.ModelForm):

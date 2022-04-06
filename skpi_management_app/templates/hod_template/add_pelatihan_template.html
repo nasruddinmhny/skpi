@@ -49,7 +49,13 @@
 {% endblock main_content %}
 
 {% block custom_js %}
-   
+    <script>
+
+        $(document).ready(function(){
+            $("#id_mahasiswa").select2();
+        });
+
+    </script>
 
 {% endblock custom_js %}
     

@@ -1,4 +1,4 @@
-from multiprocessing import context
+
 import os
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
@@ -9,8 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm, CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreatePrestasiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePelatihanForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm, UpdatePrestasiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
-
 from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, PerguruanTinggi, Prestasi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
+
 
 def admin_home(request):
     all_mahasiswa_count = Mahasiswa.objects.all().count()
@@ -552,7 +552,8 @@ def manage_pelatihan(request):
     return render(request,'hod_template/manage_pelatihan_template.html',context)
 
 def add_pelatihan(request):
-    form_pelatihan = CreatePelatihanForm()    
+    form_pelatihan = CreatePelatihanForm()  
+    print(form_pelatihan)  
     context = {
         'form_pelatihan':form_pelatihan,
     }
