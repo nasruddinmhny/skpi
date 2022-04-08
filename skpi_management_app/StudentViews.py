@@ -113,6 +113,9 @@ def mahasiswa_update_pelatihan(request,pelatihan_id):
     }
     return render(request,'mahasiswa_template/edit_pelatihan_template.html',context)
 
+def mahasiswa_view_pelatihan(request) :
+    pass
+    
 def mahasiswa_manage_prestasi(request):
     mahasiswa = Mahasiswa.objects.get(admin=request.user.id)
     prestasi = Prestasi.objects.select_related('mahasiswa').filter(mahasiswa_id=mahasiswa)

@@ -151,6 +151,7 @@ class CreateCustomUserForm(UserCreationForm):
         if p1 != p2:
             raise forms.ValidationError('Password tidak sesuai!')
         return cleaned_data
+        
 
     def clean_email(self):
         cleaned_data = super().clean()
@@ -160,12 +161,31 @@ class CreateCustomUserForm(UserCreationForm):
             raise forms.ValidationError("Email Sudah Ada!")
         return email1
 
+    def clean_username(self):
+        cleaned_data = super().clean()
+
+        username1 = cleaned_data.get('username')
+        if CustomUser.objects.filter(username=username1):
+            raise forms.ValidationError("username Sudah Ada!")
+        return username1
+
+
 
 class CreatePelatihanForm(forms.ModelForm):
     class Meta:
         model = Pelatihan
         fields = ['kegiatan','tglpelatihan','penyelenggara','status','image','mahasiswa']
-    
+
+    try:
+        mahasiswa = Mahasiswa.objects.all()
+        mahasiswa_list = []
+        for mhs in mahasiswa:
+            mahasiswa_single = (mhs.id,mhs.nim)
+            mahasiswa_list.append(mahasiswa_single)
+    except:
+         mahasiswa_list = []
+
+   # mahasiswa = forms.CharField(label="mahasiswa", choices=mahasiswa_list, widget=forms.Select(attrs={"class":"form-control"}))
 
     tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
 

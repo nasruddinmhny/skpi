@@ -16,6 +16,8 @@ urlpatterns = [
     path('get_user_details/',views.get_user_details,name='get_user_details'),
     path('admin_home/',adminHome.admin_home,name='admin-home'),
     path('admin_profile/',adminHome.admin_profile,name='admin_profile'),
+    path('check_email_exist/', adminHome.check_email_exist, name="check_email_exist"),
+    path('check_username_exist/', adminHome.check_username_exist, name="check_username_exist"),
 
     #perguruan tinggi
     path('manage_perguruan_tinggi/',adminHome.manage_perguruantinggi,name='manage_perguruan_tinggi'),
@@ -28,12 +30,15 @@ urlpatterns = [
     path('update_programstudi/<int:programstudi_id>',adminHome.update_programstudi,name='update_programstudi'),
     path('view_programstudi_detail/<int:programstudi_id>/',adminHome.view_programstudi_detail,name='view_programstudi_detail'),
 
-    #staff
+    #staff/admin
     path('manage_staff/',adminHome.manage_staff,name='manage_staff'),
     path('add_staff/',adminHome.add_staff,name='add_staff'),
     path('add_staff_save/',adminHome.add_staff_save,name="add_staff_save"),
     path('edit_staff/<int:staff_id>/',adminHome.edit_staff,name="edit_staff"),
     path('hapus_staff/<int:staff_id>/',adminHome.hapus_staff,name='hapus_staff'),
+    path('view_user_staff/<int:staff_id>/',adminHome.view_user_staff,name='view_user_staff'),
+
+    
 
     #mahasiswa/admin
     path('manage_mahasiswa/',adminHome.manage_mahasiswa,name='manage_mahasiswa'),
@@ -63,6 +68,10 @@ urlpatterns = [
     path('staff_add_mahasiswa/',StaffViews.add_mahasiswa,name='staff_add_mahasiswa'),
     path('staff_add_mahasiswa_save/', StaffViews.add_mahasiswa_save,name='staff_add_mahasiswa_save'),
     path('staff_hapus_mahasiswa/<int:mahasiswa_id>/',StaffViews.hapus_mahasiswa,name='staff_hapus_mahasiswa'),
+    path('staff_check_email_exist/', StaffViews.staff_check_email_exist, name="staff_check_email_exist"),
+    path('staff_check_username_exist/', StaffViews.staff_check_username_exist, name="staff_check_username_exist"),
+    path('staff_update_mahasiswa/<int:user_id>/',StaffViews.update_mahasiswa,name='staff_update_mahasiswa'),
+
 
     #pelatihan/admin
     path('manage_pelatihan/',adminHome.manage_pelatihan,name='manage_pelatihan'),
@@ -94,8 +103,7 @@ urlpatterns = [
 
 
 
-    path('check_email_exist/', adminHome.check_email_exist, name="check_email_exist"),
-    path('check_username_exist/', adminHome.check_username_exist, name="check_username_exist"),
+   
 
 
 ]

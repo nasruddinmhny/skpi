@@ -13,10 +13,11 @@ from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, Per
 
 
 def admin_home(request):
-    all_mahasiswa_count = Mahasiswa.objects.all().count()
+    all_mahasiswa_count = Mahasiswa.objects.filter().count()
     all_staff_count = Staff.objects.all().count()
     all_programstudi_count = ProgramStudi.objects.all().count()
-    all_perguruantinggi_count = PerguruanTinggi.objects.all().count
+    all_perguruantinggi_count = PerguruanTinggi.objects.all().count()
+    
 
     context={
         'all_mahasiswa_count':all_mahasiswa_count,
