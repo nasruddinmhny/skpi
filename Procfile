@@ -1,1 +1,1 @@
-web: gunicorn surat_pendamping_ijazah.wsgi
+web: gunicorn surat_pendamping_ijazah.wsgi app:app
