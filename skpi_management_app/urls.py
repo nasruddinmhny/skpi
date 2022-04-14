@@ -14,7 +14,7 @@ urlpatterns = [
     path('view_user_staff/<int:user_id>/',adminHome.view_user_staff,name='view_user_staff'),
     path('view_user_mahasiswa/<int:user_id>/',adminHome.view_user_mahasiswa,name='view_user_mahasiswa'),
     path('get_user_details/',views.get_user_details,name='get_user_details'),
-    path('admin_home/',adminHome.admin_home,name='admin-home'),
+    path('admin_home/',adminHome.admin_home,name='admin_home'),
     path('admin_profile/',adminHome.admin_profile,name='admin_profile'),
     path('check_email_exist/', adminHome.check_email_exist, name="check_email_exist"),
     path('check_username_exist/', adminHome.check_username_exist, name="check_username_exist"),
@@ -63,7 +63,7 @@ urlpatterns = [
     path('hapus_subcpl/<int:subcpl_id>/',adminHome.hapus_subcpl,name='hapus_subcpl'),
 
     #staff
-    path('staff_home/',StaffViews.staff_home,name='staff-home'),
+    path('staff_home/',StaffViews.staff_home,name='staff_home'),
     path('staff_manage_mahasiswa/',StaffViews.manage_mahasiswa,name='staff_manage_mahasiswa'),
     path('staff_add_mahasiswa/',StaffViews.add_mahasiswa,name='staff_add_mahasiswa'),
     path('staff_add_mahasiswa_save/', StaffViews.add_mahasiswa_save,name='staff_add_mahasiswa_save'),
