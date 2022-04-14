@@ -1,7 +1,7 @@
 
 from distutils.command.clean import clean
 from django import forms
-from .models import Cpl, CustomUser, Mahasiswa, Organisasi, Pelatihan, PerguruanTinggi,Fakultas, Prestasi, ProgramStudi, Staff,Gelar, SubAspekCpl
+from .models import Cpl, CustomUser, KonfirmasiData, Mahasiswa, Organisasi, Pelatihan, PerguruanTinggi,Fakultas, Prestasi, ProgramStudi, Staff,Gelar, SubAspekCpl
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import NumberInput
@@ -79,12 +79,14 @@ class UpdateStaffForm(forms.ModelForm):
 class UpdateMAhasiswaForm(forms.ModelForm):
 
     tgllahir = forms.DateField(label='Tgl. Lahir',widget=NumberInput(attrs={'type': 'date'}))
+    tglmasukkuliah = forms.DateField(label='Tgl. Masuk Kuliah',widget=NumberInput(attrs={'type': 'date'}))
+    tglluluskuliah = forms.DateField(label='Tgl. Lulus Kuliah',widget=NumberInput(attrs={'type': 'date'}))
     tempatlahir = forms.CharField(label='Temp. Lahir')
     address = forms.CharField(label='Alamat')
 
     class Meta:
         model = Mahasiswa
-        fields = ['nim','gender','tgllahir','tempatlahir','programstudi','address']
+        fields = ['nim','gender','tgllahir','tempatlahir','programstudi','address','noseriijazah','tglmasukkuliah','tglluluskuliah','gelar']
 
         
 
@@ -177,7 +179,7 @@ class CreatePelatihanForm(forms.ModelForm):
         fields = ['kegiatan','tglpelatihan','penyelenggara','status','image','mahasiswa']
 
     try:
-        mahasiswa = Mahasiswa.objects.all()
+        mahasiswa = Mahasiswa.objects.select_related('admin__first_name')
         mahasiswa_list = []
         for mhs in mahasiswa:
             mahasiswa_single = (mhs.id,mhs.nim)
@@ -185,7 +187,7 @@ class CreatePelatihanForm(forms.ModelForm):
     except:
          mahasiswa_list = []
 
-   # mahasiswa = forms.CharField(label="mahasiswa", choices=mahasiswa_list, widget=forms.Select(attrs={"class":"form-control"}))
+    mahasiswa = forms.ChoiceField(label="mahasiswa", choices=mahasiswa_list, widget=forms.Select(attrs={"class":"form-control"}))
 
     tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
 
@@ -239,4 +241,9 @@ class UpdatePrestasiMhsForm(forms.ModelForm):
     tglkegiatan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date'}))
     class Meta:
         model = Prestasi
+        exclude = ['mahasiswa']
+
+class CreateKonfirmasiData(forms.ModelForm):
+    class Meta:
+        model = KonfirmasiData
         exclude = ['mahasiswa']

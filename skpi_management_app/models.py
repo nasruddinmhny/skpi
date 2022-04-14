@@ -143,6 +143,9 @@ class Gelar(models.Model):
     class Meta:
         verbose_name_plural = "Gelar Pendidikan"
 
+    def __str__(self):
+        return self.namasingkat+" - "+self.nama
+
 
 class Mahasiswa(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
@@ -155,6 +158,10 @@ class Mahasiswa(models.Model):
     address = models.TextField(blank=True,max_length=250,null=True)
     tempatlahir = models.CharField(max_length=200,null=True)
     tgllahir = models.DateField(auto_created=True,null=True)
+    noseriijazah = models.CharField(max_length=150, blank=True, verbose_name='No. Seri Ijazah')
+    tglmasukkuliah = models.DateField(auto_created=True,verbose_name='Tanggal Masuk', null=True)
+    tglluluskuliah = models.DateField(auto_created=True, verbose_name='Tanggal Lulus',null=True)
+    gelar = models.ForeignKey(Gelar, on_delete=models.CASCADE, verbose_name='Gelar', default=1)
     programstudi = models.ForeignKey(ProgramStudi,on_delete=models.CASCADE, blank=True, null=True, verbose_name="Program Studi")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -165,14 +172,14 @@ class Mahasiswa(models.Model):
         verbose_name_plural = "Mahasiswa"
 
     def __str__(self):
-        return f'{self.nim}'
+        return self.nim+" - "+self.admin.first_name
     
 
 
 class Skpi(models.Model):
     noseriijazah = models.CharField(max_length=150, blank=True, verbose_name='No. Seri Ijazah')
-    tglmasukkuliah = models.DateField(auto_created=True,verbose_name='Tanggal Masuk', blank=True)
-    tglluluskuliah = models.DateField(auto_created=True, verbose_name='Tanggal Lulus',blank=True)
+    tglmasukkuliah = models.DateField(auto_created=True,verbose_name='Tanggal Masuk', null=True)
+    tglluluskuliah = models.DateField(auto_created=True, verbose_name='Tanggal Lulus',null=True)
     gelar = models.ForeignKey(Gelar, on_delete=models.CASCADE, verbose_name='Gelar', default=1)
     mahasiswa = models.ForeignKey(Mahasiswa, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -240,6 +247,18 @@ class Organisasi(models.Model):
     def __str__(self):
         return self.nama
         
+class KonfirmasiData(models.Model):
+    setuju = models.BooleanField(default=False)
+    mahasiswa = models.OneToOneField(Mahasiswa,on_delete=models.CASCADE,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    class Meta:
+            verbose_name_plural = "Konfirmasi Data"
+
+    def __str__(self):
+        return self.setuju
 
 #creating django signal
 @receiver(post_save,sender=CustomUser)

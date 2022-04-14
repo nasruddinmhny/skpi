@@ -39,6 +39,7 @@
                         <td>{{ mhs.admin.username}}</td>
                         <td>{{ mhs.admin.user_type}}</td>
                         <td>
+                            <a href="{% url 'staff_skpi_mahasiswa' mhs.admin.id %}" class="btn btn-warning btn-sm" title="view">view</i></a>
                             <a href="{% url 'staff_update_mahasiswa' mhs.admin.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{mhs.id}}" title="Hapus">
                                 Hapus

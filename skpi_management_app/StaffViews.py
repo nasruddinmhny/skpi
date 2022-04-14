@@ -8,18 +8,21 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 from .models import CustomUser, Staff
-from .forms import CreateCustomUserForm,UpdateMAhasiswaForm
+from .forms import CreateCustomUserForm,UpdateMAhasiswaForm,CreateKonfirmasiData
 
-from .models import Mahasiswa, ProgramStudi
+from .models import Mahasiswa, ProgramStudi,KonfirmasiData
 
 
 def staff_home(request):
-    mahasiswa_count = Mahasiswa.objects.all().count()
+    loginuserprodi = Staff.objects.get(admin=request.user.id)
+    mahasiswa_count = Mahasiswa.objects.filter(programstudi=loginuserprodi.programstudi).count()
     staff = Staff.objects.get(admin=request.user.id)
+    print(loginuserprodi.programstudi)
 
     context={
         'mahasiswa_count':mahasiswa_count,
-        'programstudi':staff,
+        'staff':staff,
+        'loginuserprodi':loginuserprodi,
 
 
     }
@@ -115,6 +118,40 @@ def update_mahasiswa(request,user_id):
         'form_mahasiswa':form_mahasiswa,
     }
     return render(request,'hod_template/edit_mahasiswa_template.html',context)
+
+def view_mahasiswa_skpi(request,user_id):
+    mhs = Mahasiswa.objects.get(admin=user_id)
+    konfir = KonfirmasiData.objects.filter(mahasiswa=mhs.id)
+
+    if request.method == 'POST':
+        form = CreateKonfirmasiData(request.POST)
+        print(form)
+        if form.is_valid():
+            konfirmData = form.save(commit=False)
+            konfirmData.mahasiswa_id = mhs.id
+            konfirmData.save()
+            return redirect('manage_mahasiswa')
+    else:
+        form = CreateKonfirmasiData()
+    
+
+    #customuser = CustomUser.objects.get(id=user_id)
+    #prodi = ProgramStudi.objects.get(id=mahasiswa.programstudi_id)
+    
+    #mahasiswa = Mahasiswa.objects.select_related('pelatihan','organisasi').get(admin=user_id)
+    #pelatihan = Pelatihan.objects.get(mahasiswa=user_id)
+    context={
+        
+        'mahasiswa':mhs,
+        'konfirmasi':konfir,     
+        'form':form,
+        #'customuser':customuser, 
+        #'prodi':prodi,
+    }
+    return render(request,'staff_template/view_skpi_template.html',context)
+
+
+
 @csrf_exempt
 def staff_check_email_exist(request):
     email = request.POST.get("email")

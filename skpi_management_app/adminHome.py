@@ -7,23 +7,32 @@ from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+from django.db.models import Count,Sum,Q
 import json
-from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm, CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreatePrestasiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePelatihanForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm, UpdatePrestasiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
-from .models import Cpl, CustomUser, Fakultas, Gelar, Organisasi, Pelatihan, PerguruanTinggi, Prestasi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
+from .forms import CreateCplForm, CreateCustomUserForm, CreateGelarfForm, CreateKonfirmasiData, CreateOrganisasiForm, CreatePelatihanForm, CreatePerguruanTinggiForm, CreatePrestasiForm, CreateStaffForm, CreateSubCplForm, UpdateCplForm, UpdateCustomeuseForm, UpdateGelarfForm, UpdateMAhasiswaForm, UpdatePelatihanForm, UpdatePerguruanTinggiForm,CreateFakultasForm,UpdateFakultasForm,CreateProgramStudiForm, UpdatePrestasiForm,UpdateProgramStudiForm, UpdateStaffForm, UpdateSubCplForm
+from .models import Cpl, CustomUser, Fakultas, Gelar, KonfirmasiData, Organisasi, Pelatihan, PerguruanTinggi, Prestasi, ProgramStudi,Staff,Mahasiswa, SubAspekCpl
 
 
 def admin_home(request):
-    all_mahasiswa_count = Mahasiswa.objects.filter().count()
-    all_staff_count = Staff.objects.all().count()
-    all_programstudi_count = ProgramStudi.objects.all().count()
+    all_mahasiswa_count = Mahasiswa.objects.all().count()
+    prodi_count = ProgramStudi.objects.all().count()
+    prodi = ProgramStudi.objects.all()
+    valid_count_data = KonfirmasiData.objects.values('setuju').annotate(count_data=Count('setuju'))
+    invalid_count_data = 0
     all_perguruantinggi_count = PerguruanTinggi.objects.all().count()
-    
+    mahasiswa_count_prodi = Mahasiswa.objects.values('programstudi','programstudi__nama').annotate(count=Count('programstudi'))
+    print(valid_count_data)
 
     context={
         'all_mahasiswa_count':all_mahasiswa_count,
-        'all_staff_count':all_staff_count,
-        'all_programstudi_count':all_programstudi_count,
         'all_perguruantinggi_count':all_perguruantinggi_count,
+        'mahasiswa_count_prodi':mahasiswa_count_prodi,
+        'prodi':prodi,
+        'prodi_count':prodi_count,
+        'valid_count_data':valid_count_data,
+        'invalid_count_data':invalid_count_data,
+
+
     }
     return render(request,'hod_template/home_content.html',context)
 
@@ -531,14 +540,33 @@ def view_user_staff(request,user_id):
     return render(request,'hod_template/view_user_template.html',context)
 
 def view_user_mahasiswa(request,user_id):
-    customuser = CustomUser.objects.get(id=user_id)
-    mahasiswa = Mahasiswa.objects.get(admin=user_id)
+    mhs = Mahasiswa.objects.get(admin=user_id)
+    konfir = KonfirmasiData.objects.filter(mahasiswa=mhs.id)
+
+    if request.method == 'POST':
+        form = CreateKonfirmasiData(request.POST)
+        print(form)
+        if form.is_valid():
+            konfirmData = form.save(commit=False)
+            konfirmData.mahasiswa_id = mhs.id
+            konfirmData.save()
+            return redirect('manage_mahasiswa')
+    else:
+        form = CreateKonfirmasiData()
+    
+
+    #customuser = CustomUser.objects.get(id=user_id)
+    #prodi = ProgramStudi.objects.get(id=mahasiswa.programstudi_id)
+    
     #mahasiswa = Mahasiswa.objects.select_related('pelatihan','organisasi').get(admin=user_id)
     #pelatihan = Pelatihan.objects.get(mahasiswa=user_id)
-
     context={
-        'customuser':customuser,
-        'mahasiswa':mahasiswa,      
+        
+        'mahasiswa':mhs,
+        'konfirmasi':konfir,     
+        'form':form,
+        #'customuser':customuser, 
+        #'prodi':prodi,
     }
     return render(request,'hod_template/view_mahasiswa_template.html',context)
 
@@ -690,6 +718,9 @@ def manage_organisasi(request):
         'organisasi':organisasi,
     }
     return render(request,'hod_template/manage_organisasi_template.html',context)
+
+def viewdataskpi(request,admin_id):
+    mahasiswa = Mahasiswa.objects.select_related('admin').get(admin=admin_id)
 
 @csrf_exempt
 def check_email_exist(request):

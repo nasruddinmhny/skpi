@@ -71,6 +71,7 @@ urlpatterns = [
     path('staff_check_email_exist/', StaffViews.staff_check_email_exist, name="staff_check_email_exist"),
     path('staff_check_username_exist/', StaffViews.staff_check_username_exist, name="staff_check_username_exist"),
     path('staff_update_mahasiswa/<int:user_id>/',StaffViews.update_mahasiswa,name='staff_update_mahasiswa'),
+    path('staff_skpi_mahasiswa/<int:user_id>/',StaffViews.view_mahasiswa_skpi,name='staff_skpi_mahasiswa'),
 
 
     #pelatihan/admin

@@ -29,17 +29,21 @@
                 <thead>
                     <tr>
                         <th>NIM</th>
+                        <th>NAMA</th>
                         <th>PROGRAM STUDI</th>
+                        <th>FAKULTAS</th>
                         <th>AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for mhs in mahasiswa  %}
                     <tr>
-                        <td>{{ mhs.admin.username}}</td>
+                        <td>{{ mhs.nim}}</td>
+                        <td>{{ mhs.admin.first_name }}</td>
                         <td>{{ mhs.programstudi.nama}}</td>
+                        <td>{{ mhs.programstudi.fakultas.nama }}</td>
                         <td>
-                            <a href="{% url 'view_user_mahasiswa' mhs.admin.id %}" class="btn btn-warning btn-sm" title="Edit">View</i></a>
+                            <a href="{% url 'view_user_mahasiswa' mhs.admin.id %}" class="btn btn-warning btn-sm" title="Edit" target="_blank">View</i></a>
                             <a href="{% url 'update_mahasiswa' mhs.admin.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus-{{mhs.id}}" title="Hapus">
                                 Hapus
