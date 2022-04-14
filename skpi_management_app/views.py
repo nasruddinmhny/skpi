@@ -23,11 +23,11 @@ def doLogin(request):
             user_type = user.user_type
             #return HttpResponse("Email: "+request.POST.get('email')+ " Password: "+request.POST.get('password'))
             if user_type == '1':
-                return redirect('admin-home')
+                return redirect('admin_home')
                 
             elif user_type == '2':
                 # return HttpResponse("Staff Login")
-                return redirect('staff-home')
+                return redirect('staff_home')
                 
             elif user_type == '3':
                 # return HttpResponse("Student Login")
@@ -48,4 +48,4 @@ def get_user_details(request):
 
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect('/skpi')
+    return HttpResponseRedirect('login')
