@@ -24,9 +24,9 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('skpi/',include('skpi_management_app.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
-    url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
+    path('',include('skpi_management_app.urls')),
+    #path('__debug__/', include('debug_toolbar.urls')),
+    url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
     url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
 ]
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
