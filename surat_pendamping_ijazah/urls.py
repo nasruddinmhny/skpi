@@ -28,7 +28,7 @@ from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('skpi_management_app.urls')),
-    path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
-    path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+    path('media/P<path>/)', serve,{'document_root': settings.MEDIA_ROOT}), 
+    path('static/<path>/)', serve,{'document_root': settings.STATIC_ROOT}), 
 ]
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
