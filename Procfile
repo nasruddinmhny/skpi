@@ -1,1 +1,1 @@
-web: gunicorn surat_pendamping_ijazah.wsgi --log-file -
+web: gunicorn surat_pendamping_ijazah.wsgi
