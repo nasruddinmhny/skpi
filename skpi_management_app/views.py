@@ -9,7 +9,7 @@ from skpi_management_app.EmailBackEnd import EmailBackEnd
 
 
 # Create your views here.
-@apps.route('/loginPage', methods=['POST'])
+
 def loginPage(request):
     return render(request,'login.html')
 
