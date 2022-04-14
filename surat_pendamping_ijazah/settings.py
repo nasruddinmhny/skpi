@@ -148,7 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #For Custom USER
 AUTH_USER_MODEL = "skpi_management_app.CustomUser"
-
+LOGIN_URL = 'login'
 # Registering Custom Backend "EmailBackEnd"
 AUTHENTICATION_BACKENDS = ['skpi_management_app.EmailBackEnd.EmailBackEnd']
 
