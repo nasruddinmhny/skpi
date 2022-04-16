@@ -177,17 +177,19 @@ class CreatePelatihanForm(forms.ModelForm):
     class Meta:
         model = Pelatihan
         fields = ['kegiatan','tglpelatihan','penyelenggara','status','image','mahasiswa']
-
+  
+    
     try:
-        mahasiswa = Mahasiswa.objects.select_related('admin__first_name')
+        mahasiswa = Mahasiswa.objects.all()
         mahasiswa_list = []
         for mhs in mahasiswa:
             mahasiswa_single = (mhs.id,mhs.nim)
             mahasiswa_list.append(mahasiswa_single)
     except:
-         mahasiswa_list = []
+        mahasiswa_list=[]
 
-    mahasiswa = forms.ChoiceField(label="mahasiswa", choices=mahasiswa_list, widget=forms.Select(attrs={"class":"form-control"}))
+    mahasiswa = forms.ChoiceField(label="mahasiswa", choices=mahasiswa_list, widget=forms.Select(attrs={"class":"form-control form-select"}))
+    
 
     tglpelatihan = forms.DateField(label='Tanggal',widget=NumberInput(attrs={'type': 'date','Labels':'Tgl. Masuk'}))
 

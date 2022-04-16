@@ -589,10 +589,14 @@ def add_pelatihan(request):
     return render(request,'hod_template/add_pelatihan_template.html',context)
 
 def add_pelatihan_save(request):
+    #mhs = Mahasiswa.objects.filter(id=request.POST.get('mahasiswa'))
+   
     if request.method == 'POST':
         form_pelatihan = CreatePelatihanForm(request.POST,request.FILES)
         if form_pelatihan.is_valid():
-            form_pelatihan.save()
+            pel = form_pelatihan.save(commit=False)
+            pel.mahasiswa_id = 30'
+
             messages.success(request, "Data Disimpan!")
             return redirect('manage_pelatihan')
     else:

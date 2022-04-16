@@ -33,10 +33,10 @@ def doLogin(request):
                 # return HttpResponse("Student Login")
                 return redirect('student_home')
             else:
-                messages.error(request, "Invalid Login!")
+                messages.error(request, "Gagal Login!")
                 return redirect('login')
         else:
-            messages.error(request, "Invalid Login Credentials!")
+            messages.error(request, "Gagal Login!")
             #return HttpResponseRedirect("/")
             return redirect('login')
 
