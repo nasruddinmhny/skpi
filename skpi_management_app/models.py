@@ -248,7 +248,7 @@ class Organisasi(models.Model):
         return self.nama
         
 class KonfirmasiData(models.Model):
-    setuju = models.BooleanField(default=False)
+    setuju = models.BooleanField(default=False,help_text="Klik")
     mahasiswa = models.OneToOneField(Mahasiswa,on_delete=models.CASCADE,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,12 +1,13 @@
 
 import os
+from django.db.models import Exists, OuterRef
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
 import json
+from django.db.models import Count,Sum,Q
 from .models import CustomUser, Staff
 from .forms import CreateCustomUserForm,UpdateMAhasiswaForm,CreateKonfirmasiData
 
@@ -19,9 +20,12 @@ def staff_home(request):
     staff = Staff.objects.get(admin=request.user.id)
     print(loginuserprodi.programstudi)
 
+    mhs_count = KonfirmasiData.objects.values('mahasiswa__programstudi').annotate(count_data=Count('mahasiswa__programstudi')).filter(mahasiswa_id__programstudi=staff.programstudi)
+    print(mhs_count)
     context={
         'mahasiswa_count':mahasiswa_count,
         'staff':staff,
+        'mhs_count':mhs_count,
         'loginuserprodi':loginuserprodi,
 
 
@@ -29,7 +33,8 @@ def staff_home(request):
     return render(request,'staff_template/home_content.html',context)
 
 def manage_mahasiswa(request):
-    mahasiswa = Mahasiswa.objects.all()
+    staff = Staff.objects.get(admin=request.user.id)
+    mahasiswa = Mahasiswa.objects.filter(programstudi=staff.programstudi)
     return render(request,'staff_template/staff_manage_mahasiswa_template.html',{'mahasiswa':mahasiswa})
 
 def add_mahasiswa(request):
@@ -117,7 +122,7 @@ def update_mahasiswa(request,user_id):
     context={
         'form_mahasiswa':form_mahasiswa,
     }
-    return render(request,'hod_template/edit_mahasiswa_template.html',context)
+    return render(request,'staff_template/edit_mahasiswa_template.html',context)
 
 def view_mahasiswa_skpi(request,user_id):
     mhs = Mahasiswa.objects.get(admin=user_id)

@@ -27,9 +27,9 @@ SECRET_KEY = 'django-insecure-3aogh8h+7zhikjc=$8wx4p^i#cpuzti0^v9t_5-a9v3nm#ju8-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','suratkpi.herokuapp.com']
+#ALLOWED_HOSTS = ['127.0.0.1','suratkpi.herokuapp.com']
 
-
+ALLOWED_HOSTS =[]
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'skpi_management_app',
     'crispy_forms',
-    'debug_toolbar',
+    #'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
     
 
     #custome
@@ -155,8 +155,8 @@ AUTH_USER_MODEL = "skpi_management_app.CustomUser"
 # Registering Custom Backend "EmailBackEnd"
 AUTHENTICATION_BACKENDS = ['skpi_management_app.EmailBackEnd.EmailBackEnd']
 
-INTERNAL_IPS = [
+#INTERNAL_IPS = [
     # ...
-    '127.0.0.1',
+#    '127.0.0.1',
     # ...
-]
+#]

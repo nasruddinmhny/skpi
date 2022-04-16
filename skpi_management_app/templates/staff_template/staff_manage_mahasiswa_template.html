@@ -29,7 +29,7 @@
                 <thead>
                     <tr>
                         <th>NIM</th>
-                        <th>USER TYPE</th>
+                        <th>JURUSAN</th>
                         <th>AKSI</th>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                     {% for mhs in mahasiswa  %}
                     <tr>
                         <td>{{ mhs.admin.username}}</td>
-                        <td>{{ mhs.admin.user_type}}</td>
+                        <td>{{ mhs.programstudi}}</td>
                         <td>
                             <a href="{% url 'staff_skpi_mahasiswa' mhs.admin.id %}" class="btn btn-warning btn-sm" title="view">view</i></a>
                             <a href="{% url 'staff_update_mahasiswa' mhs.admin.id %}" class="btn btn-primary btn-sm" title="Edit">Edit</i></a>
