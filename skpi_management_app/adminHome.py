@@ -593,9 +593,9 @@ def add_pelatihan_save(request):
    
     if request.method == 'POST':
         form_pelatihan = CreatePelatihanForm(request.POST,request.FILES)
+        print(form_pelatihan)
         if form_pelatihan.is_valid():
-            pel = form_pelatihan.save(commit=False)
-            pel.mahasiswa_id = 30'
+            #Pelatihan.objects.create(kegiatan=,tglpelatihan=,penyelenggara)
 
             messages.success(request, "Data Disimpan!")
             return redirect('manage_pelatihan')
